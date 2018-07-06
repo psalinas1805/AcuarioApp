@@ -1,0 +1,68 @@
+import { Component } from '@angular/core';
+import {NavController, IonicPage, AlertController, ToastController, MenuController } from 'ionic-angular';
+import {TabsPage} from '../tabs/tabs';
+import {AuthService} from '../../providers/auth_service';
+
+/**
+ * Generated class for the LoginPage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+
+@IonicPage()
+@Component({
+  selector: 'page-login',
+  templateUrl: 'login.html',
+})
+export class LoginPage {
+
+
+  resposeData :any;
+  userData = {"username":"", "password":""};
+  
+  constructor(
+    public navCtrl: NavController, 
+    public authService:AuthService, 
+    public forgotCtrl: AlertController,
+    public menu: MenuController, 
+    private toastCtrl:ToastController) {
+    this.menu.swipeEnable(false);
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad LoginPage');
+
+  }
+
+  login() {
+    if(this.userData.username && this.userData.password){
+      //Api connections
+    this.authService.postData(this.userData, "login").then((result) =>{
+    this.resposeData = result;
+    if(this.resposeData.userData){
+      console.log(this.resposeData);
+      localStorage.setItem('userData', JSON.stringify(this.resposeData) )
+      this.navCtrl.push(TabsPage);
+    }
+    else{
+      this.presentToast("Please give valid username and password");
+    }
+    
+    }, (err) => {
+      //Connection failed message
+    });
+  }
+  else {
+    console.log("Give valid information.");
+  }
+  
+  }
+  presentToast(msg) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 2000
+    });
+    toast.present();
+  }
+}

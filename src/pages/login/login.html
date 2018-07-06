@@ -1,0 +1,64 @@
+<!-- -->
+<ion-content padding class="animated fadeIn login auth-page">
+    <div class="login-content">
+  
+      <!-- Logo -->
+      <div padding-horizontal text-center class="animated fadeInDown">
+        <div class="logo"></div>
+        <h2 ion-text class="text-primary">
+          <strong>Ingresa</strong>
+        </h2>
+      </div>
+
+
+      <!-- Login form -->
+      <!--form class="list-form">
+        <ion-item>
+          <ion-label floating>
+            <ion-icon name="mail" item-start class="text-primary"></ion-icon>
+            Email
+          </ion-label>
+          
+          <ion-input type="text" value="" [(ngModel)]="userData.username"></ion-input>
+        </ion-item>
+  
+        <ion-item>
+          <ion-label floating>
+            <ion-icon name="lock" item-start class="text-primary"></ion-icon>
+            Contraseña
+          </ion-label>
+          
+          <ion-input type="password" [(ngModel)]="userData.password"></ion-input>
+          
+        </ion-item>
+      </form-->
+      
+      
+    
+ <ion-list>
+        <ion-item>
+          <ion-label floating>
+            <ion-icon name="lock" item-start class="text-primary"></ion-icon>
+            Username
+          </ion-label>
+          <ion-input type="text" value="psalinas" [(ngModel)]="userData.username"></ion-input>
+        </ion-item>
+      
+        <ion-item>
+            <ion-label floating>
+                <ion-icon name="lock"  item-start class="text-primary"></ion-icon>
+               Password
+              </ion-label>
+          <ion-input type="password" value="hola123" [(ngModel)]="userData.password"></ion-input>
+        </ion-item>
+      
+        <button ion-button block color="primary" (click)="login()">Login</button>
+</ion-list>
+      
+    
+      <p text-right ion-text color="secondary" tappable (click)="forgotPass()"><strong>Olvidaste tu contraseña?</strong></p>
+  
+     
+    </div>
+  </ion-content>
+  

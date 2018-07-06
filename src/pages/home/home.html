@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{userDetails.name}}</ion-title>
+    <div >logout</div>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <h2>{{userDetails.name}}</h2>
+  <ion-card class="card">
+    <ion-card-header >
+      Estado Actual
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid >
+        <ion-row>
+          <ion-col>            
+            <div id="chart-container" class="chart"  ></div>
+          </ion-col>
+          <ion-col>
+            <div id="chart-container2" class="chart"></div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+        
+
+</ion-content>

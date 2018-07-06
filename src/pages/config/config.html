@@ -1,0 +1,92 @@
+<!--
+  Generated template for the ConfigPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>config</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding class="animated fadeIn common-bg">
+
+  <ion-card>
+    <ion-card-header>
+      Configuraciones
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col col-4>Parámetro</ion-col>
+          <ion-col col-4>
+            <strong>Mínimo</strong>
+          </ion-col>
+          <ion-col col-4>
+            <strong>Máximo</strong>
+          </ion-col>
+        </ion-row>
+        <ion-row wrap *ngFor="let res of configAcuario">
+          <ion-col col-4 align-items-start>  {{res.description}} </ion-col>
+          <ion-col col-4 align-items-end> {{res.valuemin}}</ion-col>
+          <ion-col col-4 align-items-end> {{res.valuemax}} </ion-col>
+          <!--ion-col col-4><ion-input placeholder="{{res.valuemin}}"></ion-input></ion-col>
+        <ion-col col-4><ion-input placeholder="{{res.valuemax}}"></ion-input></ion-col-->
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+    <button ion-button block color="secondary" (click)="toggleDiv()">Editar</button>
+  </ion-card>
+
+<ng-template #Encendido>
+  <ion-card>
+    <ion-card-header>
+      Artefactos
+    </ion-card-header>
+    <ion-card-content>
+        <ion-item>
+            <ion-label>Filtro de agua</ion-label>
+            <ion-toggle  checked="true"></ion-toggle>
+          </ion-item>
+          <ion-item>
+              <ion-label>Oxigenador</ion-label>
+              <ion-toggle checked="true"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>Luces</ion-label>
+                <ion-toggle value="foo" checked="true"></ion-toggle>
+              </ion-item>
+    </ion-card-content>
+  
+  </ion-card>
+</ng-template>
+<ng-template #Apagado>
+    <ion-card>
+      <ion-card-header>
+        Artefactos
+      </ion-card-header>
+      <ion-card-content>
+          <ion-item>
+              <ion-label>Filtro de agua</ion-label>
+              <ion-toggle  checked="false"></ion-toggle>
+            </ion-item>
+            <ion-item>
+                <ion-label>Oxigenador</ion-label>
+                <ion-toggle checked="false"></ion-toggle>
+              </ion-item>
+              <ion-item>
+                  <ion-label>Luces</ion-label>
+                  <ion-toggle  checked="false"></ion-toggle>
+                </ion-item>
+      </ion-card-content>
+    
+    </ion-card>
+  </ng-template>
+  <div *ngIf="visible;then Encendido else Apagado">prueba</div>
+  <button ion-button block (click)="toggleDiv()">Apagar Todo</button>
+
+
+</ion-content>
