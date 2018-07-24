@@ -1,12 +1,41 @@
+
 page-home {
     
     .chart {
-        width: 80%; 
-        min-height: 200px;
+        width: 148;
+        height: 148;
+        //min-width: height 100px;
+        font-size: 12;
       }
-      .row {
-        margin:0 !important;
+    .div{
+      width: 148;
+      height: 148;
+    }
+
+.row-red{
+  background: rgba(255, 0, 0, 0.479);  
+}
+
+
+.myCol{
+  width: 15cm;
+}
+
+.list-red{
+background: red;
+}
+.list-green{
+background: green;
+}
+      .grid-transparent{
+        background: transparent;
+        
       }
+
+      .grid-green{
+        background:rgba(24, 224, 68, 0.63);
+      }
+
 
       .ion-spinter * {
           width: 28px;
@@ -14,5 +43,28 @@ page-home {
           stroke: #444;
           fill: #222;
       }
+      .ion-spinner * {
+        width: 28px;
+        height: 28px;
+        stroke: #444;
+        fill: #222;
+      }
+      
+      
+      
+  .ion-list:first-child {
+    margin-top: 32px;
+  }
+  .ion-list + .ion-list {
+    margin-top: 0;
+    margin-left: 0;
+  
+  }
+  .ion-row{
+    margin-left: 0;
+  }
+  .item-ios{
+    background: transparent;
+  }
 }
 

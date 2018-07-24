@@ -3,6 +3,7 @@ import {NavController, IonicPage, AlertController, ToastController, MenuControll
 import {TabsPage} from '../tabs/tabs';
 import {AuthService} from '../../providers/auth_service';
 
+
 /**
  * Generated class for the LoginPage page.
  *
@@ -18,8 +19,7 @@ import {AuthService} from '../../providers/auth_service';
 export class LoginPage {
 
 
-  resposeData :any;
-  userData = {"username":"", "password":""};
+  
   
   constructor(
     public navCtrl: NavController, 
@@ -28,12 +28,15 @@ export class LoginPage {
     public menu: MenuController, 
     private toastCtrl:ToastController) {
     this.menu.swipeEnable(false);
+    
   }
+
+  resposeData :any;
+  userData = {"username":"", "password":""};
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad LoginPage');
-
-  }
+    }
 
   login() {
     if(this.userData.username && this.userData.password){
@@ -46,7 +49,7 @@ export class LoginPage {
       this.navCtrl.push(TabsPage);
     }
     else{
-      this.presentToast("Please give valid username and password");
+      this.presentToast("Usuario y/o contraseña invalidos");
     }
     
     }, (err) => {

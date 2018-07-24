@@ -12,7 +12,7 @@ import { AuthService } from '../../providers/auth_service';
 
 @IonicPage()
 @Component({
-  
+
   selector: 'page-chart',
   templateUrl: 'chart.html',
 })
@@ -44,38 +44,51 @@ export class ChartPage {
     this.userDetails = data.userData;
     this.userPostData.user_id = this.userDetails.user_id;
     this.userPostData.token = this.userDetails.token;
-    
 
-    
-    
+
+
+
   }
 
+  ionViewWillEnter() {
+ 
+  }
 
-
-  ngAfterViewInit() {
-
-    setTimeout(() => {
-      this.lineChartTemp = this.getLineChartTemp();
-    }, 1500),
+  /*ngAfterViewInit() {
+  
+      
+  
       setTimeout(() => {
-        this.lineChartPh = this.getLineChartPh();
-      }, 1500)
-  }
-
+        
+      }, 2000),
+        setTimeout(() => {
+         
+        }, 2000)
+      }
+  */
   ionViewDidLoad() {
     this.getChartData(1);
     this.getChartData(2);
-    
-    console.log('ionViewDidLoad ChartPage');
-   
+    setTimeout(()=>{
+    this.lineChartTemp = this.getLineChartTemp();
+    this.lineChartPh = this.getLineChartPh();
+  },1000);
+    this.actualizaChart();
   }
 
+actualizaChart(){
+  this.getChartData(1);
+  this.getChartData(2);
+  this.lineChartTemp = this.getLineChartTemp();
+  this.lineChartPh = this.getLineChartPh();
+}
 
 
   getChartData(category_id) {
     this.userPostData.category_id = category_id;
     this.authService.postData(this.userPostData, "chart").then((result) => {
-      console.log(result);
+
+      //console.log(result);
       this.responseChartData = result;
       if (this.responseChartData.chartData) {
         this.dataSet = this.responseChartData.chartData;
@@ -121,7 +134,7 @@ export class ChartPage {
       datasets: [{
         label: 'Mínima',
         fill: false,
-        lineTension: 1,
+        lineTension: 0.1,
         backgroundColor: 'rgb(0,178,255)',
         borderColor: 'rgb(0,178,255)',
         borderCapStyle: 'butt',
@@ -133,7 +146,7 @@ export class ChartPage {
       }, {
         label: 'Máxima',
         fill: false,
-        lineTension: 1,
+        lineTension: 0.1,
         backgroundColor: 'rgb(170,0,49)',
         borderColor: 'rgb(170,0,49)',
         borderCapStyle: 'butt',
@@ -159,7 +172,7 @@ export class ChartPage {
       datasets: [{
         label: 'Mínimo',
         fill: false,
-        lineTension: 0.1,
+        lineTension: 0.2,
         backgroundColor: 'rgb(0,178,255)',
         borderColor: 'rgb(0,178,255)',
         borderCapStyle: 'butt',
@@ -171,7 +184,7 @@ export class ChartPage {
       }, {
         label: 'Máximo',
         fill: false,
-        lineTension: 0.1,
+        lineTension: 0.2,
         backgroundColor: 'rgb(170,0,49)',
         borderColor: 'rgb(170,0,49)',
         borderCapStyle: 'butt',
@@ -183,7 +196,6 @@ export class ChartPage {
       }
       ]
     }
-
     return this.getChart(this.lineCanvasPh.nativeElement, 'line', data)
   }
 

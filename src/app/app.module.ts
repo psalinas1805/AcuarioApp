@@ -2,8 +2,6 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-
-
 import { WelcomePage } from '../pages/welcome/welcome';
 import { LoginPage } from '../pages/login/login';
 import { SingupPage } from '../pages/singup/singup';
@@ -67,6 +65,7 @@ import { ChartsModule } from 'ng2-charts';
     Push,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     WsAcuarioProvider
+    
   ]
 })
 export class AppModule {}

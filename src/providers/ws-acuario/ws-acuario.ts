@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
 //import { HttpClientModule} from '@angular/common/http';
 
 /*
@@ -10,14 +11,16 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class WsAcuarioProvider { 
-
-  constructor(public http: HttpClient) {
+  
+  
+   constructor(public http: HttpClient) {
     console.log('Hello WsAcuarioProvider Provider');
+    //const data = JSON.parse(localStorage.getItem('userData'));
     
   }
 
-  getConfig(){
-    return this.http.get('http://201.238.201.51/MCS/Acuario/ListenArduino.php?idacuario=1');
+  getConfig(idacuario){
+    return this.http.get('http://201.238.201.51/MCS/Acuario/ListenArduino.php?idacuario='+idacuario);
     //return this.http.get('http://localhost/Acuario/ListenArduino.php?idacuario=1');
     
   }

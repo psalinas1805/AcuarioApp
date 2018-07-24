@@ -8,27 +8,27 @@
 
 
 <ion-header>
-<ion-nav-geadGráficos 
-
-
+  <ion-navbar>
+    <ion-title class="ion-title-center">Gráficos</ion-title>
+  </ion-navbar>
 </ion-header>
 
 
 
-<ion-content padding>
+<ion-content padding class="animated left common-bg">
 
 
 <ion-card>
-    <ion-card-header>
+    <ion-card-header text-center>
       Tendencia Temperatura
     </ion-card-header>
-    <ion-card-content>
+    <ion-card-content no-padinng>
       <canvas #lineCanvasTemp></canvas>
     </ion-card-content>
   </ion-card>
   
   <ion-card>
-    <ion-card-header>
+    <ion-card-header text-center>
       Tendencia Ph
     </ion-card-header>
     <ion-card-content>
@@ -36,4 +36,6 @@
     </ion-card-content>
   </ion-card>
 
+
+<div text-center><button padding ion-button border color="secondary" (click)="actualizaChart()">Actualizar</button></div>
 </ion-content>

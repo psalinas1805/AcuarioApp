@@ -1,39 +1,26 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>
-      Contact
-    </ion-title>
+    <ion-title class="ion-title-center">Configuraciones</ion-title>
   </ion-navbar>
 </ion-header>
+
+<ion-list>
+  <ion-item> </ion-item>
+</ion-list>
 <ion-content>
-<ion-card>
-  <ion-grid>
-      <ion-row>
-        <ion-col col-4>Parámetro</ion-col>
-        <ion-col col-4>
-          <strong>Mínimo</strong>
-        </ion-col>
-        <ion-col col-4>
-          <strong>Máximo</strong>
-        </ion-col>
-      </ion-row>
-      <ion-row wrap *ngFor="let res of configAcuario">
-        <ion-col col-4 align-items-start><ion-label> {{res.description}}</ion-label> </ion-col>
-        <ion-col col-4 align-items-end><ion-input  placeholder="{{res.valuemin}}" [(ngModel)]=res.valuemin></ion-input></ion-col>
-        <ion-col col-4 align-items-end><ion-input placeholder="{{res.valuemax}}" [(ngModel)]=res.valuemax></ion-input></ion-col>
-      </ion-row>
-</ion-grid>
-<ion-row no-padding>
-  <ion-col>
-    <button ion-button clear small (click)="onEditar()">
-      Guardar
-    </button>
-  </ion-col>
-  <ion-col text-right>
-    <button ion-button clear small (click)="onCancelar()">
-      Cancelar
-    </button>
-  </ion-col>
-</ion-row>
-</ion-card>
+<ion-list>
+  <ion-item>
+    Pablo Salinas
+  </ion-item>
+  <ion-item>
+    Celular   : +56 9 90232413
+  </ion-item>
+  <ion-item>
+    Correo    : pablo.salinas1805@gmail.com
+  </ion-item>
+</ion-list>
+  
+  
+  
+
 </ion-content>

@@ -12,11 +12,38 @@
   }
   
   .common-bg {
-    background-color: #FAFBFC;
+    background-color: transparent;
+    background: url("../assets/img/bg.jpg") no-repeat;
+    background-size: cover;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    
+    
   }
   
   .white-bg {
-    background-color: #fff;
+    background-color:transparent;
+  }
+  .transparent-bg {
+
+      .ion-card{
+        background-color:transparent;
+      }
+
+      .div{
+        background-color: transparent;
+      }
+      .ion-list{
+        background-color:transparent;
+      }
+      .ion-item{
+        background-color:transparent;
+      }
+      .ion-row{
+        background-color:transparent;
+      }
   }
   
   .detail-bg {
@@ -93,6 +120,10 @@
   }
   
   .padding-xs {
+    padding: 30px;
+  }
+
+  .padding {
     padding: 10px;
   }
   
@@ -227,13 +258,54 @@
     }
   }
   
+.row-bg{
+  background: transparent;
+}
+
+
   // card style
   .card {
-    background: #FFF;
-    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.123);
+    border-radius: 0rem;
     box-shadow: 0 0 2px rgba(86, 61, 124, 0.2), 0 1px 2px rgba(86, 61, 124, 0.15);
   }
+
+  .card-footer-transparent{
+    background: transparent;
+    text-align: left;
+  }
+  .card-header-red {
+    background: rgba(212, 14, 0, 0.911);
+    border-radius: 0rem;
+    box-shadow: 0 0 0px rgba(86, 61, 124, 0.2), 0 0px 0px rgba(86, 61, 124, 0.15);
+    text-align: center;
+    font-size: 18px;  
+  }
+
+
+  .card-header-plomo {
+    background: rgb(238, 238, 238);
+    border-radius: 0rem;
+    box-shadow: 0 0 0px rgba(86, 61, 124, 0.2), 0 0px 0px rgba(86, 61, 124, 0.15);
+    text-align: center;
+  }
+
+  .card-header-green {
+    background: rgba(9, 163, 43, 0.63);
+    border-radius: 0rem;
+    box-shadow: 0 0 1px rgba(86, 61, 124, 0.2), 0 1px 2px rgba(86, 61, 124, 0.15);
+    text-align: center;
+    .row-bg{
+      background: #68C91F;
+    }
+  }
   
+  .card-header-transparent {
+    background: transparent;
+    border-radius: 0rem;
+    box-shadow: 0 0 1px rgba(86, 61, 124, 0.2), 0 1px 2px rgba(86, 61, 124, 0.15);
+    text-align: center;
+  }
   // navbar style
   ion-navbar.no-border {
   
@@ -252,12 +324,52 @@
       border: none;
     }
   
+    .text-input {
+      margin: 0px 0px;
+      padding: 0;
+      width: calc(100% - 8px - 8px);
+    }
+    .text-input-ios {
+      margin: 0px 0px 0px 0;
+      padding: 0;
+      width: calc(100% - 8px);
+  }
+  .text-input-md {
+    margin: 0px 0px;
+    padding: 0;
+    width: calc(100% - 8px - 8px);
+}
+
+.item-ios{
+  background: transparent;
+}
+
+
     .item {
       .item-inner {
         border: none;
+        text-align: left;
+        background: transparent;
       }
     }
   }
+
+  .item-md {
+    padding-left: 16px;
+    padding-right: 0;
+    position: relative;
+    font-size: 1.6rem;
+    font-weight: normal;
+    text-transform: none;
+    color: #000;
+    background-color: transparent;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    -webkit-transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    transition: background-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
   
   .list-full-border {
     @extend .list-no-border;
@@ -268,6 +380,7 @@
       border-bottom: 1px solid rgba(86, 61, 124, 0.2);
       .item-inner {
         border: none;
+        background: transparent;
       }
     }
   }
@@ -276,6 +389,7 @@
   .item.no-border {
     .item-inner {
       border: none;
+      background: transparent;
     }
   }
   
@@ -284,7 +398,7 @@
   .toolbar {
     &.nav-transparent {
       .toolbar-background {
-        background-color: rgba(86, 61, 124, .65);
+        background-color: rgba(86, 61, 124, 0);
       }
     }
     .toolbar-title {
@@ -334,8 +448,9 @@
           margin-bottom: 0;
   
           ion-item {
-            background: none;
+            background: transparent;
             padding: 0;
+            text-align: left;
   
             &:first-child {
               border-top: none;
@@ -384,10 +499,16 @@
     }
   }
   
+  .col{
+    padding: 4px;
+  }
+ 
   .user-list {
     .item {
       &:last-child {
         border-bottom: 0;
+        text-align: left;
+        padding: 0;
       }
       .item-inner {
         border-color: rgba(86, 61, 124, .1);
@@ -486,9 +607,14 @@
     ion-list ion-item,
     .list-hotels .hotel-bg {
       pointer-events: none;
+      background: transparent;
     }
   }
   
+  .ion-title-center{
+    text-align: center;
+  }
+
   // google
   .google-map {
     height: 160px;
@@ -545,5 +671,10 @@
   
   .fadeInDown {
     animation-name: fadeInDown;
+  }
+
+  .button-inner{
+    width: 100%;
+    height: 2%;
   }
   

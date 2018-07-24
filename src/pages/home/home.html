@@ -1,29 +1,108 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>{{userDetails.name}}</ion-title>
-    <div >logout</div>
+    <ion-title class="ion-title-center"> Bienvenido {{userDetails.name}} {{userDetails.idacuario}}</ion-title>
   </ion-navbar>
 </ion-header>
+<ion-content  class="animated left common-bg">
 
-<ion-content padding>
-  <h2>{{userDetails.name}}</h2>
-  <ion-card class="card">
-    <ion-card-header >
-      Estado Actual
+  <ion-card >
+    <ion-card-header class="card-header-transparent">Estado actual</ion-card-header>
+    <ion-grid class="grid-transparent">
+      <ion-row>
+        <ion-col col-8>
+          <ion-row>
+            <!--ion-row *ngFor="let res of dataSet"-->
+            <ion-list>
+              <ion-row class="{{this.tempClassRow}}">
+                <ion-list>
+                  <ion-item style="padding-left: 0px">
+                    <ion-col>
+                      <ion-icon name="{{this.iconoTemp}}"></ion-icon>
+                    </ion-col>
+                    <ion-col>Temperatura:</ion-col>
+                    <ion-col>{{this.valtemp}}°C</ion-col>
+                  </ion-item>
+                </ion-list>
+              </ion-row>
+              <ion-row class="{{this.phClassRow}}">
+                <ion-list>
+                  <ion-item style="padding-left: 0px">
+                    <ion-col>
+                      <ion-icon name="{{this.iconoPh}}"></ion-icon>
+                    </ion-col>
+                    <ion-col col-auto> Ph: </ion-col>
+                    <ion-col col-auto>{{this.valph}} </ion-col>
+                  </ion-item>
+                </ion-list>
+              </ion-row>
+              <ion-row class="{{this.nivelClassRow}}">
+                <ion-list>
+                  <ion-item style="padding-left: 0px">
+                    <ion-col>
+                      <ion-icon no-padding name="{{this.iconoNivel}}"></ion-icon>
+                    </ion-col>
+                    <ion-col>Nivel de agua:</ion-col>
+                    <ion-col> {{this.valnivel}}</ion-col>
+                  </ion-item>
+                </ion-list>
+              </ion-row>
+            </ion-list>
+          </ion-row>
+        </ion-col>
+        <ion-col col-4>
+          <img src={{this.semaforo}}/>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-card-header class="card-footer-transparent">Última actualización: {{dateRegistro}}</ion-card-header>
+  </ion-card>
+
+  <ion-card class="common-bg">
+      <ion-card-header class="card-header-transparent" text-center>
+          Artefactos
+        </ion-card-header>
+  <ion-card-content>
+    <ion-item>
+      <ion-label>Calefactor</ion-label>
+      <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.calefactor"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Ventilador</ion-label>
+      <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.ventilador"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Filtro de agua</ion-label>
+      <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.filtroagua"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Oxigenador</ion-label>
+      <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.aire"></ion-toggle>
+    </ion-item>
+    <ion-item>
+      <ion-label>Luces</ion-label>
+      <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.luz"></ion-toggle>
+    </ion-item>
+  </ion-card-content>
+</ion-card>
+
+
+  <!--ion-card class="common-bg">
+    <ion-card-header>
+
     </ion-card-header>
     <ion-card-content>
-      <ion-grid >
+      <ion-grid>
         <ion-row>
-          <ion-col>            
-            <div id="chart-container" class="chart"  ></div>
+          <ion-col>
+            <div id="chart-container" class="div"></div>
           </ion-col>
           <ion-col>
-            <div id="chart-container2" class="chart"></div>
+            <div id="chart-container2" class="div "></div>
           </ion-col>
         </ion-row>
       </ion-grid>
     </ion-card-content>
-  </ion-card>
-        
+  </ion-card-->
+
 
 </ion-content>

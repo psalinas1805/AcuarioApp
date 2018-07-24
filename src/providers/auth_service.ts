@@ -33,5 +33,35 @@ export class AuthService {
 
   }
 
+  getConfig(credentials, type){
+    console.log("1 getconfig");
+    return new Promise((resolve, reject) =>{
+      let headers = new Headers();
+      console.log("2 getconfig");
+      this.http.post(apiUrl+type, JSON.stringify(credentials), {headers: headers}).
+      subscribe(res =>{
+        resolve(res.json());
+        console.log("3getconfig");
+      }, (err) =>{
+        reject(err);
+      });
+
+    });
+  }
+
+  setConfig(newConfig, type){
+    console.log("1 setConfig");
+    return new Promise((resolve, reject) =>{
+      let headers = new Headers();
+      this.http.post(apiUrl+type, JSON.stringify(newConfig), {headers: headers}).
+      subscribe(res =>{
+        resolve(res.json());
+      }, (err) =>{
+        reject(err);
+      });
+
+    });
+  }
+
   
 }

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "394610215299",
+    "firebase_url": "https://happypez-91bd9.firebaseio.com",
+    "project_id": "happypez-91bd9",
+    "storage_bucket": "happypez-91bd9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394610215299:android:ca8d1005a064fb90",
+        "android_client_info": {
+          "package_name": "com.psalinas.happypez"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "394610215299-fbe9aqgkvvsbdvkguifpugetfi1f222g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCKRkR1-OZhJcsxh3uDzYJd3fvAteiv-Zc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
