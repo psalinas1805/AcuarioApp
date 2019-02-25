@@ -20,8 +20,8 @@ export class WsAcuarioProvider {
   }
 
   getConfig(idacuario){
-    return this.http.get('http://201.238.201.51/MCS/Acuario/ListenArduino.php?idacuario='+idacuario);
-    //return this.http.get('http://localhost/Acuario/ListenArduino.php?idacuario=1');
+    //return this.http.get('http://201.238.201.51/MCS/Acuario/ListenArduino.php?idacuario='+idacuario);
+    //return this.http.get('http://happypez.tk/ListenArduino.php?idacuario=1');
     
   }
 }

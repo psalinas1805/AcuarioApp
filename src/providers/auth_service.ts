@@ -3,8 +3,7 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 
-let apiUrl = 'http://201.238.201.51/MCS/Acuario/AuthServices/api/index.php/';
-//let apiUrl = 'http://localhost/Acuario/AuthServices/api/index.php/';
+let apiUrl = 'http://happypez.cf/AuthServices/api/index.php/';
 
 /*
   Generated class for the AuthService provider.
@@ -34,14 +33,14 @@ export class AuthService {
   }
 
   getConfig(credentials, type){
-    console.log("1 getconfig");
+    
     return new Promise((resolve, reject) =>{
       let headers = new Headers();
-      console.log("2 getconfig");
+      console.log(apiUrl+type+JSON.stringify(credentials));
       this.http.post(apiUrl+type, JSON.stringify(credentials), {headers: headers}).
       subscribe(res =>{
         resolve(res.json());
-        console.log("3getconfig");
+        //console.log("3getconfig");
       }, (err) =>{
         reject(err);
       });
@@ -50,7 +49,7 @@ export class AuthService {
   }
 
   setConfig(newConfig, type){
-    console.log("1 setConfig");
+    //console.log("1 setConfig");
     return new Promise((resolve, reject) =>{
       let headers = new Headers();
       this.http.post(apiUrl+type, JSON.stringify(newConfig), {headers: headers}).
@@ -62,6 +61,47 @@ export class AuthService {
 
     });
   }
-
   
+
+  getAlimentoList(idacuario, method){
+    console.log("getAlimento Nuevo");
+    let userData = {'idacuario':''}
+    userData.idacuario = idacuario;
+    let body = JSON.stringify(userData);
+    let headers = new Headers();
+
+    return this.http.post(apiUrl + method, body, {headers})
+        .map( res=>{
+          //console.log(res.json);
+          return res.json();
+        });
+  }
+
+  addAlimento(data, method){
+    console.log("AddAlimento Nuevo");
+    
+    let body = JSON.stringify(data);
+    let headers = new Headers();
+
+    return this.http.post(apiUrl + method, body, {headers})
+        .map( res=>{
+          //console.log(res.json);
+          return res.json();
+        });
+  }
+
+  deleteAlimento(data, method){
+    console.log("getAlimento Nuevo");
+    //let userData = {'idacuario':''}
+    //userData.idacuario = idacuario;
+    let body = JSON.stringify(data);
+    let headers = new Headers();
+
+    return this.http.post(apiUrl + method, body, {headers})
+        .map( res=>{
+          //console.log(res.json);
+          return res.json();
+        });
+  }
+
 }

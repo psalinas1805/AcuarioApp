@@ -13,5 +13,39 @@ page-config {
   .item-ios{
     background: transparent;
   }
-  
+ 
+  .text-left{
+    text-align: left
+  }
+  .text-center{
+    text-align: center
+  }
+  .text-right{
+    text-align: right
+  }
+  .button-right{
+    right: 0;
+  } 
+  .vAlign {
+    padding: 0px;
+    border: 0px;
+    margin-left: 10px;
+    margin-bottom: middle;
+    align-content: center;
+    vertical-align: middle;
+  }
+  .vAlignHeader {
+    padding: 0px;
+    border: 0px;
+    margin-bottom: middle;
+    align-content: center;
+    vertical-align: middle;
+  }
+  .AlignText{
+    margin-top: 5px;
+  }
+  .togglePosition{
+    position: absolute;
+  }
 }
+

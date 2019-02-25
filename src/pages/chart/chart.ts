@@ -50,6 +50,12 @@ export class ChartPage {
 
   }
 
+
+ionViewDidLeave(){
+  console.log("Saliendo de Chart");
+  
+}
+
   ionViewWillEnter() {
  
   }

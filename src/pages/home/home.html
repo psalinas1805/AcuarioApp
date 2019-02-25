@@ -1,12 +1,18 @@
 <ion-header>
   <ion-navbar>
-    <ion-title class="ion-title-center"> Bienvenido {{userDetails.name}} {{userDetails.idacuario}}</ion-title>
+    <ion-title class="ion-title-center"> Bienvenido {{userDetails.nombre}}</ion-title>
   </ion-navbar>
 </ion-header>
-<ion-content  class="animated left common-bg">
 
-  <ion-card >
-    <ion-card-header class="card-header-transparent">Estado actual</ion-card-header>
+<ion-content class="animated left common-bg">
+  
+  <ion-card>
+    <ion-card-header class="card-header-transparent">Estado actual acuario {{userStateData.idacuario}}</ion-card-header>
+    <ion-item>
+        <ion-select interface="popover" class="selector button-outline" placeholder="Seleccionar" id="idacuario" name="idacuario" [(ngModel)]="userStateData.idacuario">
+            <ion-option *ngFor="let acu of uIdAcuario" class="option" [value]="acu.idacuario">{{acu.nomacuario}}</ion-option>            
+        </ion-select>
+      </ion-item>
     <ion-grid class="grid-transparent">
       <ion-row>
         <ion-col col-8>
@@ -50,7 +56,7 @@
           </ion-row>
         </ion-col>
         <ion-col col-4>
-          <img src={{this.semaforo}}/>
+          <img src={{this.semaforo}} />
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -58,32 +64,32 @@
   </ion-card>
 
   <ion-card class="common-bg">
-      <ion-card-header class="card-header-transparent" text-center>
-          Artefactos
-        </ion-card-header>
-  <ion-card-content>
-    <ion-item>
-      <ion-label>Calefactor</ion-label>
-      <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.calefactor"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Ventilador</ion-label>
-      <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.ventilador"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Filtro de agua</ion-label>
-      <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.filtroagua"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Oxigenador</ion-label>
-      <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.aire"></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Luces</ion-label>
-      <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.luz"></ion-toggle>
-    </ion-item>
-  </ion-card-content>
-</ion-card>
+    <ion-card-header class="card-header-transparent" text-center>
+      Artefactos
+    </ion-card-header>
+    <ion-card-content>
+      <ion-item>
+        <ion-label>Calefactor</ion-label>
+        <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.calefactor"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Ventilador</ion-label>
+        <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.ventilador"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Filtro de agua</ion-label>
+        <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.filtroagua"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Oxigenador</ion-label>
+        <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.aire"></ion-toggle>
+      </ion-item>
+      <ion-item>
+        <ion-label>Luces</ion-label>
+        <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.luz"></ion-toggle>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
 
 
   <!--ion-card class="common-bg">

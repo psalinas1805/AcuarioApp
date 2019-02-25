@@ -13,11 +13,11 @@ export class ContactPage {
 
   }
   ionViewDidLoad(){
-    this.proveedor.getConfig(1)
+  /*  this.proveedor.getConfig(1)
     .subscribe(
       (data)=>{this.configAcuario = data;},
       (error)=>{console.log(error);}
-    )
+    )*/
 } 
 
 }

@@ -5,7 +5,7 @@ import { LoginPage } from '../login/login';
 import { FCM } from '@ionic-native/fcm';
 import { AuthService } from '../../providers/auth_service';
 import { WsAcuarioProvider } from '../../providers/ws-acuario/ws-acuario';
-
+//import { TabsPage } from "../tabs/tabs";
 //declare var google;
 
 @Component({
@@ -38,6 +38,12 @@ export class HomePage {
   public configAcuario;
   responseStateData
   configState
+  suIdAcuario;
+  responseAcuarioData ;
+  uIdAcuario
+  
+
+
   public configInit = {
     itempmin: 0,
     itempmax: 0,
@@ -60,7 +66,9 @@ export class HomePage {
     Oxigenador: true,
     Luz: true,
   };
-
+  daysOptions = {
+    cssClass: 'my-class'
+  }
   userPostData = { "user_id": "", "token": "", "category_id": "" };
   userStateData = { "user_id": "", "token": "", "idacuario": "" };
   userTokenPush = { "user_id": "", "token": "", "tokenPush": "" };
@@ -70,6 +78,7 @@ export class HomePage {
     platform: Platform,
     private fcm: FCM,
     public authService: AuthService,
+    //public tabspage: TabsPage,
     public proveedor:WsAcuarioProvider
     
   ) {
@@ -83,13 +92,20 @@ export class HomePage {
     this.userStateData.token = this.userDetails.token;
     this.userStateData.idacuario = this.userDetails.idacuario;
 
+    //tabspage.id = +this.userStateData.idacuario;
+    
     this.userTokenPush.user_id = this.userDetails.user_id;
     this.userTokenPush.token = this.userDetails.token;
     
+    localStorage.setItem('idacuario', JSON.stringify(this.userStateData.idacuario) )
+    console.log("idacuario AAAAA:" + JSON.parse(localStorage.getItem('idacuario')));
+
 
     //console.log("Ejecutando getdata on constructor");
+    this.getAcuariosUser();
     this.getDataTempPh();
     this.getState();
+    
 
     if (platform.is('cordova')) {
 
@@ -115,26 +131,49 @@ export class HomePage {
   }
 
   ionViewCanEnter(){
-    
-    
+  
   }
 
-  ionViewDidLoad() {
+ionViewWillUnload(){
+  localStorage.setItem('idacuario', JSON.stringify(this.userStateData.idacuario) )
 
-    
+}
+
+  ionViewDidLoad() {
+ 
     this.userPostData.category_id = ""
 
     setInterval(() => {
       //this.getLastConfig(); 
       this.getDataTempPh();
       this.getState();
-      
+      this.getAcuariosUser();
     }, 3000);   
+
+    
   }
 
 ionViewWillEnter(){
-    
+  
 
+}
+ionViewWillLeave(){
+  localStorage.setItem('idacuario', JSON.stringify(this.userStateData.idacuario) )
+
+}
+getAcuariosUser(){
+  console.log("Buscando Acuarios del usuario");
+
+  this.authService.getConfig(this.userPostData, "getAcuariosUser").then((result) => {
+    //console.log(result);
+    this.responseAcuarioData = result;
+    if (this.responseAcuarioData.userData) {
+      console.log("Dentro de if response Acuario DAta");
+      this.uIdAcuario = this.responseAcuarioData.userData;
+      console.log(this.uIdAcuario);
+      
+      }
+    });
 }
 /*
   showChartTemp() {
@@ -209,8 +248,10 @@ ionViewWillEnter(){
 
   getDataTempPh() {
     
+    //console.log(this.userStateData);
+    
     this.userPostData.category_id = "";
-    this.authService.postData(this.userPostData, "chartTempPh").then((result) => {
+    this.authService.postData(this.userStateData, "chartTempPh").then((result) => {
       //console.log(result);
       this.responseChartData = result;
       if (this.responseChartData.chartData) {
