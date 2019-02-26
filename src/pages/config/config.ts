@@ -298,13 +298,15 @@ export class ConfigPage {
     
     let data = {"user_id":this.userPostData.user_id,"idacuario":this.userPostData.idacuario}
 
-    alert("Configura la nueva hora de Alimentación.");
+    
+    this.doAlert("Alimento agregado","Configura la hora y porcion de alimentacion");
     this.authService.addAlimento(data, 'addAlimento')
       .subscribe(data => {
         let response = data.response;
         console.log("Respuesta ADD ALIMENTO" + response);
       });
     this.getAlimentoList();
+    
   }
 
   getAlimentoList(){
@@ -333,7 +335,7 @@ export class ConfigPage {
           cssClass: 'secondary',
           handler: (blah) => {
             console.log('Confirm Cancel: blah');
-            this.doAlert("Eliminar alimento!","Operacion Cancelada");
+            this.doAlert("Operacion cancelada","");
           }
         }, {
           text: 'Si',
@@ -341,7 +343,7 @@ export class ConfigPage {
             this.authService.deleteAlimento(dataDeleteAlimento, 'deleteAlimento')
             .subscribe(data => {
               let response = data.response;
-              console.log(response);
+              console.log( " Delete alimento response: " + response );
             });
       
             this.getAlimentoList();
@@ -360,7 +362,7 @@ export class ConfigPage {
   saveData() {
     console.log(this.myForm.value);
     this.authService.setConfig(this.myForm.value, "setConfig")
-    this.doAlert("Configuracioò","Su configuración ha sido guardada!");
+    this.doAlert("Configuración","Su configuración ha sido guardada!");
     this.edit = false;
     this.getLastConfigNew()
   }
@@ -368,7 +370,7 @@ export class ConfigPage {
 
   saveDataAli() {
     console.log(this.editAlimento);
-    //this.authService.setConfig(this.myForm.value, "setConfig")
+    this.authService.setConfig(this.editAlimento, "editAlimento")
     this.doAlert("Alimentacion","Su configuracion ha sido guardada!");
     this.editAli = false;
   }

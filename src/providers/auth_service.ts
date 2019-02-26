@@ -3,8 +3,9 @@ import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 
 
-let apiUrl = 'http://happypez.cf/AuthServices/api/index.php/';
-
+//let apiUrl = 'http://happypez.cf/AuthServices/api/index.php/';
+let apiUrl = 'http://localhost:3000/';
+let headers = new Headers({'Content-Type': 'application/json'});
 /*
   Generated class for the AuthService provider.
 
@@ -20,7 +21,7 @@ export class AuthService {
   postData(credentials, type){
 
     return new Promise((resolve, reject) =>{
-      let headers = new Headers();
+      //let headers = new Headers({'Content-Type': 'application/json'});
       this.http.post(apiUrl+type, JSON.stringify(credentials), {headers: headers}).
       subscribe(res =>{
         resolve(res.json());
@@ -35,7 +36,7 @@ export class AuthService {
   getConfig(credentials, type){
     
     return new Promise((resolve, reject) =>{
-      let headers = new Headers();
+      //let headers = new Headers({'Content-Type': 'application/json'});
       console.log(apiUrl+type+JSON.stringify(credentials));
       this.http.post(apiUrl+type, JSON.stringify(credentials), {headers: headers}).
       subscribe(res =>{
@@ -51,7 +52,7 @@ export class AuthService {
   setConfig(newConfig, type){
     //console.log("1 setConfig");
     return new Promise((resolve, reject) =>{
-      let headers = new Headers();
+      //let headers = new Headers({'Content-Type': 'application/json'});
       this.http.post(apiUrl+type, JSON.stringify(newConfig), {headers: headers}).
       subscribe(res =>{
         resolve(res.json());
@@ -68,7 +69,7 @@ export class AuthService {
     let userData = {'idacuario':''}
     userData.idacuario = idacuario;
     let body = JSON.stringify(userData);
-    let headers = new Headers();
+    //let headers = new Headers({'Content-Type': 'application/json'});
 
     return this.http.post(apiUrl + method, body, {headers})
         .map( res=>{
@@ -81,7 +82,7 @@ export class AuthService {
     console.log("AddAlimento Nuevo");
     
     let body = JSON.stringify(data);
-    let headers = new Headers();
+    //let headers = new Headers();
 
     return this.http.post(apiUrl + method, body, {headers})
         .map( res=>{
@@ -95,7 +96,7 @@ export class AuthService {
     //let userData = {'idacuario':''}
     //userData.idacuario = idacuario;
     let body = JSON.stringify(data);
-    let headers = new Headers();
+    //let headers = new Headers();
 
     return this.http.post(apiUrl + method, body, {headers})
         .map( res=>{
