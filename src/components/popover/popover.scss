@@ -1,0 +1,25 @@
+popover {
+
+}
+
+.popover-ios .popover-content {
+    border-radius: 10px;
+    width: max-content;
+    color: #000;
+    background: #fff;
+    position: initial;
+}
+
+.popover-md .popover-content {
+    width: max-content;
+    position: initial;
+    
+}
+
+.custom-popover {
+
+    ion-backdrop
+    {
+        opacity:0.4;
+    }
+  }

@@ -1,0 +1,25 @@
+<!-- Generated template for the PopoverComponent component -->
+<ion-card>
+
+  <ion-label text-center>
+    <h2>Editando alimento</h2>
+  </ion-label>
+  <hr>
+  <ion-item>
+    <ion-label>Hora</ion-label>
+    <ion-datetime text-center label [(ngModel)]="editAlimentoPop.hora" placeholder="00:00" displayFormat="HH:mm">
+    </ion-datetime>
+  </ion-item>
+  <ion-item>
+    <ion-label class="primary">Porcion</ion-label>
+    <ion-input label text-right style="text-align:right;" type="text" [(ngModel)]="editAlimentoPop.porcion"
+      placeholder="0"></ion-input>
+
+  </ion-item>
+  <div text-center>
+        <button ion-button (click)="send()">Enviar</button>
+        <button ion-button (click)="backEdit()">Cancelar</button>
+      </div>
+
+
+</ion-card>
