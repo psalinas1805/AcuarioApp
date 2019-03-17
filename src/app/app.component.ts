@@ -4,8 +4,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { FCM } from '@ionic-native/fcm';
 import { Push, PushObject, PushOptions } from '@ionic-native/push'
+import { WebsocketProvider } from '../providers/websocket/websocket';
 
 import { LoginPage } from '../pages/login/login';
+import { AuthService } from '../providers/auth_service';
 //import { TabsPage } from '../pages/tabs/tabs';
 
 @Component({
@@ -17,7 +19,15 @@ export class MyApp {
   //rootPage:any = TabsPage;
 
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private fcm: FCM, private push: Push) {
+  constructor(platform: Platform, 
+    statusBar: StatusBar,
+    splashScreen: SplashScreen, 
+    private fcm: FCM, 
+    public wsService: WebsocketProvider,
+    private push: Push, 
+    public authService: AuthService
+    ) 
+    {
     platform.ready().then(() => {
       this.pushSetup();
       if (platform.is('cordova')) {
@@ -28,7 +38,7 @@ export class MyApp {
 
         });
 
-        this.fcm.onNotification().subscribe(data => {
+        this.fcm.onNotification().map(data => {
           if (data.wasTapped) {
             console.log("Received in background");
             alert("Received in background");
@@ -61,11 +71,21 @@ export class MyApp {
    const pushObject: PushObject = this.push.init(options);
    
    
-   pushObject.on('notification').subscribe((notification: any) => console.log('Received a notification', notification));
+   pushObject.on('notification').map((notification: any) => console.log('Received a notification', notification));
    
-   pushObject.on('registration').subscribe((registration: any) => console.log('Device registered', registration));
+   pushObject.on('registration').map((registration: any) => console.log('Device registered', registration));
    
-   pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
+   pushObject.on('error').map(error => console.error('Error with Push plugin', error));
+  }
+
+  ngOnInit(){
+  
+    this.authService.getAlimentoSocket().subscribe(msg =>{
+      console.log(msg);
+      
+    });
+
+    
   }
 
 }

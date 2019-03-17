@@ -1,18 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavController, App, Platform } from 'ionic-angular';
 import { LoginPage } from '../login/login';
-//import { WelcomePage } from'../welcome/welcome';
 import { FCM } from '@ionic-native/fcm';
 import { AuthService } from '../../providers/auth_service';
 import { WsAcuarioProvider } from '../../providers/ws-acuario/ws-acuario';
-//import { TabsPage } from "../tabs/tabs";
-//declare var google;
+
+import { Socket } from "ng-socket-io";
+import { WebsocketProvider } from "../../providers/websocket/websocket";
 
 @Component({
+
+  
   selector: 'page-home',
   templateUrl: 'home.html'
 })
-export class HomePage {
+export class HomePage implements OnInit {
   public responseChartData: any;
   public tempstate = "red";
   public phstate = "red";
@@ -24,7 +26,7 @@ export class HomePage {
   public tokenId: any;
   public category_id: number;
   public nombre: string;
-  public delay: number =5000;
+  public delay: number = 5000;
   x: number = 0;
   public dateRegistro: any;
   public stateRed = false;
@@ -33,15 +35,15 @@ export class HomePage {
   public nivelClassRow = "";
   public semaforo = "";
   public iconoTemp = "";
-  public iconoPh ="";
-  public iconoNivel ="";
+  public iconoPh = "";
+  public iconoNivel = "";
   public configAcuario;
   responseStateData
   configState
   suIdAcuario;
-  responseAcuarioData ;
+  responseAcuarioData;
   uIdAcuario
-  
+  interval;
 
 
   public configInit = {
@@ -49,7 +51,7 @@ export class HomePage {
     itempmax: 0,
     iphmin: 0,
     iphmax: 0
-    
+
   }
   configArtefact = {
     calefactor: false,
@@ -78,9 +80,11 @@ export class HomePage {
     platform: Platform,
     private fcm: FCM,
     public authService: AuthService,
-    //public tabspage: TabsPage,
-    public proveedor:WsAcuarioProvider
-    
+    public proveedor: WsAcuarioProvider,
+    private socket: Socket,    
+    public wsService: WebsocketProvider
+
+
   ) {
 
     const data = JSON.parse(localStorage.getItem('userData'));
@@ -93,11 +97,11 @@ export class HomePage {
     this.userStateData.idacuario = this.userDetails.idacuario;
 
     //tabspage.id = +this.userStateData.idacuario;
-    
+
     this.userTokenPush.user_id = this.userDetails.user_id;
     this.userTokenPush.token = this.userDetails.token;
-    
-    localStorage.setItem('idacuario', JSON.stringify(this.userStateData.idacuario) )
+
+    localStorage.setItem('idacuario', JSON.stringify(this.userStateData.idacuario))
     console.log("idacuario AAAAA:" + JSON.parse(localStorage.getItem('idacuario')));
 
 
@@ -105,7 +109,7 @@ export class HomePage {
     this.getAcuariosUser();
     this.getDataTempPh();
     this.getState();
-    
+
 
     if (platform.is('cordova')) {
 
@@ -117,7 +121,7 @@ export class HomePage {
         this.setToken();
       });
 
-      this.fcm.onNotification().subscribe(data => {
+      this.fcm.onNotification().map(data => {
         if (data.wasTapped) {
           console.log("Received in background");
           alert("Received in background");
@@ -130,113 +134,69 @@ export class HomePage {
 
   }
 
-  ionViewCanEnter(){
-  
+
+  ngOnInit() {
+    console.log('ngOnInit llamando al sendMessage');
+    this.authService.getMessage().subscribe( msg =>{
+      console.log(msg);
+      
+    })
+    this.conectarSocket()
+    this.escucharSocket();
+  }
+  ionViewCanEnter() {
+    console.log("Dentro de ionviewCanEnter");
   }
 
-ionViewWillUnload(){
-  localStorage.setItem('idacuario', JSON.stringify(this.userStateData.idacuario) )
+  ionViewWillUnload() {
+    localStorage.setItem('idacuario', JSON.stringify(this.userStateData.idacuario));
+    console.log("Dentro de ionviewWillUnload");
 
-}
+  }
 
   ionViewDidLoad() {
- 
+    console.log("Dentro de ionviewDidLoad");
+
+
+
+  }
+
+  ionViewWillEnter() {
+    console.log("Dentro de ionviewWillWEnter");
     this.userPostData.category_id = ""
 
-    setInterval(() => {
+    this.interval = setInterval(() => {
       //this.getLastConfig(); 
       this.getDataTempPh();
       this.getState();
       this.getAcuariosUser();
-    }, 3000);   
+    }, 3000);
 
+  }
+  ionViewWillLeave() {
+    console.log("Dentro de ionviewWillLeave");
+
+    localStorage.setItem('idacuario', JSON.stringify(this.userStateData.idacuario))
     
+    if (this.interval) {
+      console.log("Canelando Interval");  
+      clearInterval(this.interval);
+   }
   }
 
-ionViewWillEnter(){
-  
+  getAcuariosUser() {
+    console.log("Buscando Acuarios del usuario");
 
-}
-ionViewWillLeave(){
-  localStorage.setItem('idacuario', JSON.stringify(this.userStateData.idacuario) )
+    this.authService.getConfig(this.userPostData, "getAcuariosUser").then((result) => {
+      console.log(result);
+      this.responseAcuarioData = result;
+      if (this.responseAcuarioData.userData) {
+        console.log("Dentro de if response Acuario DAta");
+        this.uIdAcuario = this.responseAcuarioData.userData;
+        console.log(this.uIdAcuario);
 
-}
-getAcuariosUser(){
-  console.log("Buscando Acuarios del usuario");
-
-  this.authService.getConfig(this.userPostData, "getAcuariosUser").then((result) => {
-    //console.log(result);
-    this.responseAcuarioData = result;
-    if (this.responseAcuarioData.userData) {
-      console.log("Dentro de if response Acuario DAta");
-      this.uIdAcuario = this.responseAcuarioData.userData;
-      console.log(this.uIdAcuario);
-      
       }
     });
-}
-/*
-  showChartTemp() {
-    //console.log("Ejecutando showChartTemp");
-    
-
-    var dataTemp = google.visualization.arrayToDataTable([
-      ['Label', 'Value'],
-      ['Temperatura', this.valtemp],
-    ]);
-
-    
-    var optionsTemp = {
-      greenFrom: this.configInit.itempmin, greenTo: this.configInit.itempmax,
-      redFrom: this.configInit.itempmax, redTo: 40,
-      yellowFrom: 0, yellowTo: this.configInit.itempmin,
-      minorTicks: 5,
-      max: 40
-    };
-    //var chartTemp = new google.visualization.Gauge(document.getElementById('chart-container'));
-    //chartTemp.draw(dataTemp, optionsTemp);
-    setInterval(() => {
-      this.getLastConfig(); 
-      this.getDataTempPh();
-      dataTemp.setValue(0, 1, this.valtemp);
-      //chartTemp.draw(dataTemp, optionsTemp);
-    }, this.delay);
-  }*/
-
-
-  /*
-  showChartPh() {
-    
-    //console.log("Ejecutando showChartPh");
-    var dataPh = google.visualization.arrayToDataTable([
-      ['Label', 'Value'],
-      ['Ph', this.valph],
-
-    ]);
-
-    var optionsPh = {
-      greenFrom: 5, greenTo: 8,
-      redFrom: 8, redTo: 14,
-      yellowFrom: 0, yellowTo: 5,
-      minorTicks: 5,
-      max: 14
-    };
-    var chartPh = new google.visualization.Gauge(document.getElementById('chart-container2'));
-    
-    chartPh.draw(dataPh, optionsPh);
-    
-    setInterval( () => {   
-     
-      this.getDataTempPh();
-      dataPh.setValue(0, 1, this.valph);
-      chartPh.draw(dataPh, optionsPh);
-
-    }, this.delay);
-    
-  }*/
-
-  backToWelcome() {
-
   }
 
   logout() {
@@ -247,70 +207,67 @@ getAcuariosUser(){
   }
 
   getDataTempPh() {
-    
-    //console.log(this.userStateData);
-    
+
+    console.log(` Buscando datos de ${this.userStateData.idacuario} ` );
     this.userPostData.category_id = "";
     this.authService.postData(this.userStateData, "chartTempPh").then((result) => {
-      //console.log(result);
+      console.log(result);
       this.responseChartData = result;
       if (this.responseChartData.chartData) {
         this.dataSet = this.responseChartData.chartData;
         //console.log(this.dataSet.length);
         this.stateRed = false;
+        this.iconoTemp = "checkmark";
+        this.iconoPh = "checkmark";
+        this.iconoNivel = "checkmark";
+        this.tempClassRow, this.phClassRow, this.nivelClassRow = "";
+        this.semaforo = "assets/img/semVerde.png";
 
-        
-        this.iconoTemp="checkmark";
-        this.iconoPh="checkmark";
-        this.iconoNivel ="checkmark";
-        this.tempClassRow,this.phClassRow,this.nivelClassRow ="";
-        this.semaforo="assets/img/semVerde.png";
-        
         for (let i in this.dataSet) {
           //console.log(this.dataSet[i].description, this.dataSet[i].value, this.dataSet[i].state);
           if (this.dataSet[i].description == "Temperatura") {
             this.valtemp = +this.dataSet[i].value;
             this.dateRegistro = this.dataSet[i].dateRegistro;
             //console.log("ValTemp en getdata", this.valtemp) ;
-            if(this.dataSet[i].state=="red"){
-              this.tempClassRow="row-red row";
-              this.iconoTemp="close-circle";
+            if (this.dataSet[i].state == "red") {
+              this.tempClassRow = "row-red row";
+              this.iconoTemp = "close-circle";
             }
-            else{
-              this.tempClassRow="";
-              this.iconoTemp="checkmark";
-            
+            else {
+              this.tempClassRow = "";
+              this.iconoTemp = "checkmark";
+
             }
-            
+
           }
           else if (this.dataSet[i].description == "Ph") {
             this.valph = +this.dataSet[i].value;
             //console.log("Valph en getdata", this.valph);
-            if(this.dataSet[i].state=="red"){
-              this.phClassRow="row-red row";
-              this.iconoPh="close-circle";
+            if (this.dataSet[i].state == "red") {
+              this.phClassRow = "row-red row";
+              this.iconoPh = "close-circle";
             }
-            else{
-              this.phClassRow="";
-              this.iconoPh="checkmark";
+            else {
+              this.phClassRow = "";
+              this.iconoPh = "checkmark";
             }
           }
           else if (this.dataSet[i].description == "Nivel de agua") {
             this.valnivel = this.dataSet[i].value;
-            if(this.dataSet[i].state=="red"){
-              this.nivelClassRow="row-red row";
-              this.iconoNivel="close-circle";
+            if (this.dataSet[i].state == "red") {
+              this.nivelClassRow = "row-red row";
+              this.iconoNivel = "close-circle";
             }
-            else{
-              this.nivelClassRow="";
-              this.iconoNivel="checkmark";
+            else {
+              this.nivelClassRow = "";
+              this.iconoNivel = "checkmark";
             }
             //console.log("ValNivel en getdata", this.valnivel);
           }
-          if (this.dataSet[i].state == "red"){
-            this.semaforo="assets/img/semRojo.png";
+          if (this.dataSet[i].state == "red") {
+            this.semaforo = "assets/img/semRojo.png";
           }
-          
+
         }
         this.stateRed = false;
 
@@ -322,34 +279,8 @@ getAcuariosUser(){
     }, (err) => {
       //Connection failed message
     });
-    
+
   }
-
-  /* getLastConfig(){
-    this.proveedor.getConfig(this.userDetails.idacuario)
-    .subscribe(
-      (data)=>{this.configAcuario = data;},
-      (error)=>{console.log(error);
-      }
-    )
-  
-    for (let i in this.configAcuario) {
-      //console.log("config:" + this.configAcuario[i].description, this.configAcuario[i].valuemin);
-      if (this.configAcuario[i].description == "Temperatura") {
-        this.configInit.itempmin = +this.configAcuario[i].valuemin;
-        this.configInit.itempmax = +this.configAcuario[i].valuemax;
-      }
-      
-      else if (this.configAcuario[i].description == "Ph") {
-        this.configInit.iphmin = +this.configAcuario[i].valuemin;
-        this.configInit.iphmax = +this.configAcuario[i].valuemax;
-      }
-    }
-    //console.log("itempmin: " + this.configInit.itempmin);
-
-  
-  }*/
-
 
   getState() {
     console.log("dentro de getState");
@@ -407,8 +338,21 @@ getAcuariosUser(){
   }
 
 
+  conectarSocket(){
+    console.log("Emitiendo usuario ",JSON.stringify(this.userStateData.user_id));
+    this.socket.connect();
+    this.socket.emit('set-user', JSON.stringify(this.userStateData.user_id));
+  }
 
-  
+  escucharSocket(){
+
+    this.wsService.listen('add-alimento')
+    .subscribe ( (data:any) =>{
+      console.log('XXXXXX socket',data)
+            
+    });
+    
+  }
 }
 
 

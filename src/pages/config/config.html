@@ -11,9 +11,113 @@
 </ion-header>
 
 <!--ion-content padding class="animated fadeIn common-bg"-->
+
+
+
 <ion-content class="common-bg">
+
+  <ng-template #EditAlimento>
+    <ion-card>
+      <ion-card-header class="card-header-transparent no-padding">
+        <ion-grid class="vAlign2">
+          <ion-row class="vAlign2">
+            <ion-col col-4 class="text-left">
+
+            </ion-col>
+            <ion-col col-4 class="text-center" style="padding: 10px ;font-size: 18px">
+              <strong>Editando Alimentación</strong>
+            </ion-col>
+            <ion-col col-4 class="text-right no-padding">
+              <button ion-button clear no-padding no-margin button-right (click)="addAlimento()">
+                <ion-icon class="far fa-plus-square"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-header>
+      <ion-grid class="vAlign">
+        <ion-row class="vAlign">
+          <ion-col class="vAlign">
+            <button ion-button clear small no-padding (click)="backEdit()">
+              <ion-icon class="fas fa-reply"></ion-icon>
+            </button>
+            <button ion-button clear small no-padding (click)="saveDataAli()">
+              <ion-icon class="fas fa-save"></ion-icon>
+            </button>
+
+          </ion-col>
+          <ion-col class=" AlignText" align-items-start>
+            <ion-datetime label no-padding [(ngModel)]="editAlimento.hora" placeholder="editAlimento.hora"
+              displayFormat="HH:mm"></ion-datetime>
+          </ion-col>
+          <ion-col class=" AlignText" align-items-end>
+            <ion-input label type="number" [(ngModel)]="editAlimento.porcion" placeholder="editAlimento.porcion">
+            </ion-input>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </ng-template>
+
+  <ng-template #NoEditAlimento>
+    <ion-card>
+      <ion-card-header class="card-header-transparent no-padding">
+        <ion-grid class="vAlign2">
+          <ion-row class="vAlign2">
+            <ion-col col-4 class="text-left">
+            </ion-col>
+            <ion-col col-4 class="text-center" style="padding: 10px ;font-size: 18px">
+              <strong>Alimentación</strong>
+            </ion-col>
+            <ion-col col-4 class="text-right no-padding">
+              <button ion-button clear no-padding no-margin button-right (click)="addAlimento()">
+                <ion-icon class="far fa-plus-square"></ion-icon>
+              </button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-card-header>
+      <ion-card-content no-padding>
+        <ion-grid class="vAlign">
+          <ion-row>
+            <ion-col>Accion</ion-col>
+            <ion-col>Hora</ion-col>
+            <ion-col>Porcion</ion-col>
+            <ion-col>Activa</ion-col>
+          </ion-row>
+          <ion-row class="vAlign" no-padding *ngFor="let ali of alimentoList">
+            <!--ion-col no-padding> <button ion-button clear no-padding small (click)="editDivAli(ali.idalimento)"-->
+            <ion-col no-padding> <button ion-button clear no-padding small (click)="presentPopover(ali)">
+                <ion-icon class="fas fa-edit"></ion-icon>
+              </button>
+              <button ion-button clear no-padding small (click)="deleteAlimento(ali.idalimento)">
+                <ion-icon class="fas fa-trash-alt"></ion-icon>
+              </button>
+            </ion-col>
+
+            <ion-col class="AlignText" disabled="true">
+              {{ali.hora}}
+            </ion-col>
+            <ion-col class="AlignText">
+              {{ali.porcion}}
+            </ion-col>
+            <ion-col>
+              <ion-toggle class="transparent-bg togglePosition" disabled="false" [(ngModel)]="ali.habilitado"
+                (ionChange)="setStateAlimento(ali.idalimento,ali.habilitado)"></ion-toggle>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+      </ion-card-content>
+    </ion-card>
+  </ng-template>
+
   <ng-template #Edit>
     <ion-card>
+      <ion-card-header style="padding: 10px ;font-size: 18px" text-center>
+        <strong>Parámetros del acuario</strong>
+      </ion-card-header>
+      <hr>
       <ion-card-content>
         <ion-grid>
           <form [formGroup]="myForm" (ngSubmit)="saveData()">
@@ -52,13 +156,13 @@
               <ion-col col-4>Luz Día</ion-col>
               <ion-col col-4 align-items-start>
                 <!--ion-input formControlName="luzdiamin" type="time" value="{{configInit.iluzdiamin}}" placeholder="{{configInit.iluzdiamin}}"></ion-input-->
-                <ion-datetime no-padding formControlName="luzdiamin" [(ngModel)]="configInit.iluzdiamin" placeholder="{{configInit.iluzdiamin}}"
-                  displayFormat="HH:mm"></ion-datetime>
+                <ion-datetime no-padding formControlName="luzdiamin" [(ngModel)]="configInit.iluzdiamin"
+                  placeholder="{{configInit.iluzdiamin}}" displayFormat="HH:mm"></ion-datetime>
               </ion-col>
               <ion-col col-4 align-items-end>
                 <!--ion-input formControlName="luzdiamax" type="time" value="{{configInit.iluzdiamax}}"  placeholder="{{configInit.iluzdiamax}}"></ion-input-->
-                <ion-datetime no-padding formControlName="luzdiamax" [(ngModel)]="configInit.iluzdiamax" placeholder="{{configInit.iluzdiamax}}"
-                  displayFormat="HH:mm"></ion-datetime>
+                <ion-datetime no-padding formControlName="luzdiamax" [(ngModel)]="configInit.iluzdiamax"
+                  placeholder="{{configInit.iluzdiamax}}" displayFormat="HH:mm"></ion-datetime>
               </ion-col>
             </ion-row>
             <ion-row>
@@ -78,26 +182,26 @@
               <ion-col col-4>Aire</ion-col>
               <ion-col col-4 align-items-start>
                 <!--ion-input formControlName="airemin" type="time" value="{{configInit.iairemin}}" placeholder="{{configInit.iairemin}}"></ion-input-->
-                <ion-datetime no-padding formControlName="airemin" [(ngModel)]="configInit.iairemin" placeholder="{{configInit.iairemin}}"
-                  displayFormat="HH:mm"></ion-datetime>
+                <ion-datetime no-padding formControlName="airemin" [(ngModel)]="configInit.iairemin"
+                  placeholder="{{configInit.iairemin}}" displayFormat="HH:mm"></ion-datetime>
               </ion-col>
               <ion-col col-4 align-items-end>
                 <!--ion-input formControlName="airemax" type="time" value="{{configInit.iairemax}}" placeholder="{{configInit.iairemax}}"></ion-input-->
-                <ion-datetime no-padding formControlName="airemax" [(ngModel)]="configInit.iairemax" placeholder="{{configInit.iairemax}}"
-                  displayFormat="HH:mm"></ion-datetime>
+                <ion-datetime no-padding formControlName="airemax" [(ngModel)]="configInit.iairemax"
+                  placeholder="{{configInit.iairemax}}" displayFormat="HH:mm"></ion-datetime>
               </ion-col>
             </ion-row>
             <ion-row>
               <ion-col col-4>Filtro</ion-col>
               <ion-col col-4 align-items-start>
                 <!--ion-input formControlName="filtromin" type="time" value="{{configInit.ifiltromin}}" placeholder="{{configInit.ifiltromin}}"></ion-input-->
-                <ion-datetime no-padding formControlName="filtromin" [(ngModel)]="configInit.ifiltromin" placeholder="{{configInit.ifiltromin}}"
-                  displayFormat="HH:mm"></ion-datetime>
+                <ion-datetime no-padding formControlName="filtromin" [(ngModel)]="configInit.ifiltromin"
+                  placeholder="{{configInit.ifiltromin}}" displayFormat="HH:mm"></ion-datetime>
               </ion-col>
               <ion-col col-4 align-items-end>
                 <!--ion-input formControlName="filtromax" type="time" value="{{configInit.ifiltromax}}" placeholder="{{configInit.ifiltromax}}"></ion-input-->
-                <ion-datetime no-padding formControlName="filtromax" [(ngModel)]="configInit.ifiltromax" placeholder="{{configInit.ifiltromax}}"
-                  displayFormat="HH:mm"></ion-datetime>
+                <ion-datetime no-padding formControlName="filtromax" [(ngModel)]="configInit.ifiltromax"
+                  placeholder="{{configInit.ifiltromax}}" displayFormat="HH:mm"></ion-datetime>
               </ion-col>
             </ion-row>
             <ion-row radio-group no-padding formControlName="nivelagua">
@@ -105,18 +209,19 @@
               <ion-col col-4>
                 <ion-item no-padding class="item-radio-checked">
                   <ion-label no-padding>Si</ion-label>
-                  <ion-radio no-padding value="Y" checked="{{this.valueY}}"></ion-radio>
+                  <ion-radio no-padding value="Y" slot="start" checked></ion-radio>
                 </ion-item>
               </ion-col>
               <ion-col col-4>
                 <ion-item no-padding>
                   <ion-label no-padding>No</ion-label>
-                  <ion-radio class="radio-icon radio-checked" value="N" checked="{{this.valueN}}"></ion-radio>
+                  <ion-radio class="radio-icon radio-checked" value="N" slot="start"></ion-radio>
                 </ion-item>
               </ion-col>
             </ion-row>
             <div text-center>
-              <button padding ion-button type="submit" border color="secondary" [disabled]="!myForm.valid">Guardar</button>
+              <button padding ion-button type="submit" border color="secondary"
+                [disabled]="!myForm.valid">Guardar</button>
               <button padding ion-button border color="secondary" (click)="editDiv()">Cancelar</button>
             </div>
           </form>
@@ -128,6 +233,10 @@
 
   <ng-template #NoEdit>
     <ion-card>
+      <ion-card-header style="padding: 10px ;font-size: 18px" text-center>
+        <strong>Parámetros del acuario</strong>
+      </ion-card-header>
+      <hr>
       <ion-card-content>
         <ion-grid>
           <ion-row>
@@ -218,119 +327,7 @@
   </ng-template>
 
 
-  <ng-template #EditAlimento>
-    <ion-card>
-      <ion-card-header class="card-header-transparent no-padding">
-        <ion-grid class="vAlign2">
-          <ion-row class="vAlign2">
-            <ion-col col-4 class="text-left">
-             
-            </ion-col>
-            <ion-col col-4 class="text-center">
-              <strong>Editando Alimentación</strong>
-            </ion-col>
-            <ion-col col-4  class="text-right no-padding">
-              <button ion-button clear no-padding no-margin button-right (click)="addAlimento()">
-                <ion-icon class="far fa-plus-square"></ion-icon>
-              </button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-header>
-      <ion-grid class="vAlign">
-        <ion-row class="vAlign">
-          <ion-col class="vAlign">
-            <button ion-button clear small no-padding (click)="backEdit()">
-              <ion-icon class="fas fa-reply"></ion-icon>
-            </button>
-            <button ion-button clear small no-padding (click)="saveDataAli()">
-              <ion-icon class="fas fa-save"></ion-icon>
-            </button>
 
-          </ion-col>
-          <ion-col class=" AlignText" align-items-start>
-            <ion-datetime label no-padding [(ngModel)]="editAlimento.hora" placeholder="editAlimento.hora"
-              displayFormat="HH:mm"></ion-datetime>
-          </ion-col>
-          <ion-col class=" AlignText" align-items-end>
-            <ion-input label type="number" [(ngModel)]="editAlimento.porcion" placeholder="editAlimento.porcion"></ion-input>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-      <!--ion-card-content>
-        <ion-item>
-            <ion-label>
-            <button ion-button clear button-right no-padding (click)="saveDataAli()">
-             <ion-icon class="fas fa-save"></ion-icon>
-            </button>
-          </ion-label>
-            <ion-label col-4 class="text-left">
-              <ion-datetime no-padding [(ngModel)]="editAlimento.hora" placeholder="editAlimento.hora" displayFormat="HH:mm"></ion-datetime>
-            </ion-label>
-            <ion-label col-4 class="text-left">
-              <ion-input type="number" [(ngModel)]="editAlimento.porcion" placeholder="editAlimento.porcion"></ion-input>
-            </ion-label>
-            <ion-toggle class="transparent-bg" disabled="false" [(ngModel)]="editAlimento.habilitado" (ionChange)="setStateAlimento(editAlimento.idalimento,editAlimento.habilitado)"></ion-toggle>
-        </ion-item>
-
-
-      </ion-card-content-->
-    </ion-card>
-  </ng-template>
-
-  <ng-template #NoEditAlimento>
-    <ion-card>
-      <ion-card-header class="card-header-transparent no-padding">
-        <ion-grid  class="vAlign2">
-          <ion-row class="vAlign2">
-            <ion-col col-4 class="text-left">
-            </ion-col>
-            <ion-col col-4 class="text-center">
-              <strong>Alimentación</strong>
-            </ion-col>
-            <ion-col col-4 class="text-right no-padding">
-              <button ion-button clear no-padding no-margin button-right (click)="addAlimento()">
-                <ion-icon class="far fa-plus-square"></ion-icon>
-              </button>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-card-header>
-      <ion-card-content no-padding>
-        <!--ion-item no-padding *ngFor="let ali of alimentoList">
-          <ion-label no-padding no-margin><button ion-button clear button-left (click)="editDivAli(ali.idalimento)">
-              <ion-icon class="fas fa-edit no-margin"></ion-icon>
-            </button></ion-label>
-          <ion-label no-padding>{{ali.hora}} </ion-label>
-          <ion-label>{{ali.porcion}} Porciones</ion-label>
-          <ion-toggle class="transparent-bg" disabled="false" [(ngModel)]="ali.habilitado" (ionChange)="setStateAlimento(ali.idalimento,ali.habilitado)"></ion-toggle>
-        </ion-item-->
-        <ion-grid class="vAlign">
-          <ion-row class="vAlign" no-padding *ngFor="let ali of alimentoList">
-            <ion-col no-padding> <button ion-button clear no-padding small (click)="editDivAli(ali.idalimento)">
-                <ion-icon class="fas fa-edit"></ion-icon>
-              </button>
-              <button ion-button clear no-padding small (click)="deleteAlimento(ali.idalimento)">
-                <ion-icon class="fas fa-trash-alt"></ion-icon>
-              </button>
-            </ion-col>
-
-            <ion-col class="AlignText" disabled="true">
-              {{ali.hora}}
-            </ion-col>
-            <ion-col class="AlignText">
-              {{ali.porcion}}
-            </ion-col>
-            <ion-col>
-              <ion-toggle class="transparent-bg togglePosition" disabled="false" [(ngModel)]="ali.habilitado"
-                (ionChange)="setStateAlimento(ali.idalimento,ali.habilitado)"></ion-toggle>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-
-      </ion-card-content>
-    </ion-card>
-  </ng-template>
 
 
   <div *ngIf="editAli;then EditAlimento else NoEditAlimento"></div>
@@ -340,42 +337,58 @@
 
   <ng-template #ModoManual>
     <ion-card class="transparent-bg">
-      <ion-card-header card-header-transparent no-padding text-center>
-        <button ion-button (click)="toggleDiv()" color="energy" disabled="true">Manual</button>
-        <button ion-button (click)="toggleDiv('AUTO')">Automático</button>
+      <ion-card-header card-header-transparent style="padding:10px; font-size: 18px" text-center>
+
+        <strong>Artefactos</strong>
       </ion-card-header>
+      <hr>
+      <ion-label text-center>
+        <button ion-button (click)="toggleDiv()" type="button" class="btn btn-secundary" disabled="true">Manual</button>
+        <button ion-button (click)="toggleDiv('AUTO')" type="button" class="btn btn-primary">Automático</button>
+      </ion-label>
 
       <ion-card-content class="transparent-bg">
         <ion-item class="transparent-bg">
           <ion-label>Calefactor</ion-label>
-          <ion-toggle class="transparent-bg" disabled="false" [(ngModel)]="this.configArtefact.calefactor" (ionChange)="setState('1',this.configArtefact.calefactor)"></ion-toggle>
+          <ion-toggle class="transparent-bg" disabled="false" [(ngModel)]="this.configArtefact.calefactor"
+            (ionChange)="setState('1',this.configArtefact.calefactor)"></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-label>Ventilador</ion-label>
-          <ion-toggle disabled="false" [(ngModel)]="this.configArtefact.ventilador" (ionChange)="setState('2', this.configArtefact.ventilador)"></ion-toggle>
+          <ion-toggle disabled="false" [(ngModel)]="this.configArtefact.ventilador"
+            (ionChange)="setState('2', this.configArtefact.ventilador)"></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-label>Filtro de agua</ion-label>
-          <ion-toggle disabled="false" [(ngModel)]="this.configArtefact.filtroagua" (ionChange)="setState('4', this.configArtefact.filtroagua)"></ion-toggle>
+          <ion-toggle disabled="false" [(ngModel)]="this.configArtefact.filtroagua"
+            (ionChange)="setState('4', this.configArtefact.filtroagua)"></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-label>Oxigenador</ion-label>
-          <ion-toggle disabled="false" [(ngModel)]="this.configArtefact.aire" (ionChange)="setState('5', this.configArtefact.aire)"></ion-toggle>
+          <ion-toggle disabled="false" [(ngModel)]="this.configArtefact.aire"
+            (ionChange)="setState('5', this.configArtefact.aire)"></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-label>Luces</ion-label>
-          <ion-toggle disabled="false" [(ngModel)]="this.configArtefact.luz" (ionChange)="setState('3', this.configArtefact.luz)"></ion-toggle>
+          <ion-toggle disabled="false" [(ngModel)]="this.configArtefact.luz"
+            (ionChange)="setState('3', this.configArtefact.luz)"></ion-toggle>
         </ion-item>
       </ion-card-content>
 
     </ion-card>
   </ng-template>
+
   <ng-template #ModoAutomatico>
     <ion-card class="common-bg">
-      <ion-card-header card-header-transparent no-padding text-center>
-        <button ion-button (click)="toggleDiv('MANUAL')">Manual</button>
-        <button ion-button (click)="toggleDiv()" color="energy" disabled="true">Automático</button>
+      <ion-card-header card-header-transparent style="padding:10px; font-size: 18px" text-center>
+        <strong>Artefactos</strong>
       </ion-card-header>
+      <hr>
+      <ion-label text-center>
+        <button ion-button (click)="toggleDiv('MANUAL')" type="button" class="btn btn-secundary">Manual</button>
+        <button ion-button (click)="toggleDiv()" type="button" class="btn btn-primary"
+          disabled="true">Automático</button>
+      </ion-label>
       <ion-card-content>
         <ion-item>
           <ion-label>Calefactor</ion-label>
@@ -400,8 +413,7 @@
       </ion-card-content>
     </ion-card>
   </ng-template>
+
   <div *ngIf="manual;then ModoManual else ModoAutomatico"></div>
-
-
 
 </ion-content>
