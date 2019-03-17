@@ -4,7 +4,8 @@ import 'rxjs/add/operator/map';
 
 
 //let apiUrl = 'http://happypez.cf/AuthServices/api/index.php/';
-let apiUrl = 'http://localhost:3000/';
+let apiUrl = 'http://happypez.cf:3000/';
+//let apiUrl = 'http://localhost:3000/';
 let headers = new Headers({'Content-Type': 'application/json'});
 /*
   Generated class for the AuthService provider.
