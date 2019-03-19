@@ -7,8 +7,10 @@
 <ion-content class="animated left common-bg">
   
   <ion-card>
-    <ion-card-header class="card-header-transparent">Estado actual acuario {{userStateData.idacuario}}</ion-card-header>
-    <ion-item>
+    <ion-card-header style="padding: 10px ;font-size: 18px" class="card-header-transparent">
+    <strong>  Estado actual acuario {{userStateData.idacuario}}</strong>
+    </ion-card-header>
+    <ion-item>  
         <ion-select interface="popover" class="selector button-outline" placeholder="Seleccionar" id="idacuario" name="idacuario" [(ngModel)]="userStateData.idacuario">
             <ion-option *ngFor="let acu of uIdAcuario" class="option" [value]="acu.idacuario">{{acu.nomacuario}}</ion-option>            
         </ion-select>
@@ -64,8 +66,8 @@
   </ion-card>
 
   <ion-card class="common-bg">
-    <ion-card-header class="card-header-transparent" text-center>
-      Artefactos
+    <ion-card-header class="card-header-transparent" style="padding: 10px ;font-size: 18px" text-center>
+     <strong> Artefactos</strong>
     </ion-card-header>
     <ion-card-content>
       <ion-item>
@@ -94,7 +96,6 @@
 
   <!--ion-card class="common-bg">
     <ion-card-header>
-
     </ion-card-header>
     <ion-card-content>
       <ion-grid>

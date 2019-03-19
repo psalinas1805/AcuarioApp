@@ -38,7 +38,27 @@ export class LoginPage {
     console.log('ionViewDidLoad LoginPage');
     }
 
+    login2(){
+      console.log('Loggeandose con el usuario ', this.userData);
+      
+      this.authService.loginWS( this.userData )
+      .then((res) =>{
+        console.log("dentro de login - ", res);
+        
+        if( res ){ 
+          console.log("ingresa al if");
+          localStorage.setItem('userData', JSON.stringify(res) );
+          this.navCtrl.push(TabsPage);
+        }
+        else{
+          this.presentToast("Usuario y/o contraseña invalidos");
+        }
+      });
+    }
+
   login() {
+    console.log('login');
+    
     if(this.userData.username && this.userData.password){
       //Api connections
     this.authService.postData(this.userData, "login").then((result) =>{

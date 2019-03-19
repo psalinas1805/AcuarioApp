@@ -23,7 +23,13 @@ import { Push } from '@ionic-native/push';
 
 
 import { ChartsModule } from 'ng2-charts';
+import { WebsocketProvider } from '../providers/websocket/websocket';
 
+import { PopoverComponent } from "../components/popover/popover";
+
+//Sockets
+import { SocketIoConfig, SocketIoModule } from "ng-socket-io";
+const config: SocketIoConfig = {url: 'localhost:3000', options: {} };
 
 @NgModule({
   declarations: [
@@ -36,14 +42,16 @@ import { ChartsModule } from 'ng2-charts';
     ContactPage,
     HomePage,
     ChartPage,
-    TabsPage
+    TabsPage,
+    PopoverComponent
   ],
   imports: [
     BrowserModule,
     ChartsModule,
     HttpModule,
     HttpClientModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    SocketIoModule.forRoot(config)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -56,7 +64,8 @@ import { ChartsModule } from 'ng2-charts';
     ContactPage,
     HomePage,
     ChartPage,
-    TabsPage
+    TabsPage,
+    PopoverComponent
   ],
   providers: [AuthService,
     StatusBar,
@@ -64,7 +73,8 @@ import { ChartsModule } from 'ng2-charts';
     FCM,
     Push,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    WsAcuarioProvider
+    WsAcuarioProvider,
+    WebsocketProvider
     
   ]
 })

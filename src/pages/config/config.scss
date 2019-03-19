@@ -1,51 +1,66 @@
 page-config {
-    .text-input-ios {
-        margin: 0px 0px 0px 0;
-        padding: 0;
-        width: calc(100% - 8px);
-    }
-    .text-input-md {
-      margin: 0px 0px;
+  .text-input-ios {
+      margin: 0px 0px 0px 0;
       padding: 0;
-      width: calc(100% - 8px - 8px);
+      width: calc(100% - 8px);
   }
-  
-  .item-ios{
-    background: transparent;
-  }
- 
-  .text-left{
-    text-align: left
-  }
-  .text-center{
-    text-align: center
-  }
-  .text-right{
-    text-align: right
-  }
-  .button-right{
-    right: 0;
-  } 
-  .vAlign {
-    padding: 0px;
-    border: 0px;
-    margin-left: 10px;
-    margin-bottom: middle;
-    align-content: center;
-    vertical-align: middle;
-  }
-  .vAlignHeader {
-    padding: 0px;
-    border: 0px;
-    margin-bottom: middle;
-    align-content: center;
-    vertical-align: middle;
-  }
-  .AlignText{
-    margin-top: 5px;
-  }
-  .togglePosition{
-    position: absolute;
-  }
+  .text-input-md {
+    margin: 0px 0px;
+    padding: 0;
+    width: calc(100% - 8px - 8px);
 }
 
+.item-ios{
+  background: transparent;
+}
+
+.text-left{
+  text-align: left;
+}
+.text-center{
+  text-align: center;
+}
+.text-right{
+  text-align: right;
+}
+.button-right{
+  right: 0;
+} 
+.vAlign {
+  padding: 0px;
+  border: 0px;
+  margin-left: 10px;
+  margin-bottom: middle;
+  align-content: center;
+  vertical-align: middle;
+}
+.vAlignHeader {
+  padding: 0px;
+  border: 0px;
+  margin-bottom: middle;
+  align-content: center;
+  vertical-align: middle;
+}
+.AlignText{
+  margin-top: 5px;
+}
+.togglePosition{
+  position: absolute;
+}
+
+}
+
+.button {
+display: inline-block;
+text-transform: uppercase;
+padding: 20px 30px;
+border-radius: 5px;
+box-shadow: 0px 17px 10px -10px rgba(0, 0, 0, 0.4);
+cursor: pointer;
+transition: all ease-in-out 300ms;
+}
+.button:hover {
+box-shadow: 0px 37px 20px -20px rgba(0, 0, 0, 0.2);
+-webkit-transform: translate(0px, -10px) scale(1.2);
+        transform: translate(0px, -10px) scale(1.2);
+}

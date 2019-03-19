@@ -1,10 +1,8 @@
-
 page-home {
     
     .chart {
         width: 148;
         height: 148;
-        //min-width: height 100px;
         font-size: 12;
       }
     .div{
@@ -110,3 +108,20 @@ ion-option .list{
   max-width: 100% !important;
 }
 
+.toggle[disabled]{
+  background-color: #ffffff;
+  color: black
+}
+
+input[type="text"]:disabled {
+  background: #ccc;
+}
+
+
+.custom-popover {
+
+  ion-backdrop
+  {
+      opacity:0.4;
+  }
+}

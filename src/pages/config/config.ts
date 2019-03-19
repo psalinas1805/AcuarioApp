@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
-import { WsAcuarioProvider } from '../../providers/ws-acuario/ws-acuario'
+import { Component  } from '@angular/core';
+import { IonicPage, NavController, NavParams, AlertController,PopoverController } from 'ionic-angular';
+import { WsAcuarioProvider } from '../../providers/ws-acuario/ws-acuario';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../providers/auth_service';
+import { PopoverComponent } from "../../components/popover/popover";
 
 /**
  * Generated class for the ConfigPage page.
@@ -14,25 +15,25 @@ import { AuthService } from '../../providers/auth_service';
 @IonicPage()
 @Component({
   selector: 'page-config',
-  templateUrl: 'config.html',
+  templateUrl: 'config.html'
 })
 export class ConfigPage {
   id:number;
   public userDetails: any;
   public responseConfigData: any;
   userPostData = { "user_id": "", "token": "", "idacuario": "" };
-  configAcuario
-  toGetData
-  dataSet
+  configAcuario;
+  toGetData;
+  dataSet;
   myForm: FormGroup;
   valueY;
   valueN;
-  responseStateData
-  configState
-  responseStateDataAlimento
-  configStateAlimento
-  editAlimentoList
-  editAlimento
+  responseStateData;
+  configState;
+  responseStateDataAlimento;
+  configStateAlimento;
+  editAlimentoList;
+  editAlimento;
 
   setArt = { "user_id": "0", "idacuario": "0", "art": "1", "nvalue": "ON" };
   setAli = { "user_id": "0", "idacuario": "0", "idalimento": "1", "nvalue": "true" };
@@ -44,7 +45,7 @@ export class ConfigPage {
     filtroagua: false,
     aire: false,
     luz: false
-  }
+  };
   configInit = {
     user_id: 0,
     idacuario: 0,
@@ -114,7 +115,7 @@ export class ConfigPage {
     for (let i in this.alimentoList) {
       if (this.alimentoList[i].idalimento == idalimento) {
         this.editAlimento = this.alimentoList[i];
-        console.log(this.editAlimento)
+        console.log(this.editAlimento);
       }
     }
 
@@ -122,6 +123,8 @@ export class ConfigPage {
 
   backEdit(){
     this.editAli = !this.editAli;
+    this.getAlimentoList();
+
   }
 
 
@@ -130,7 +133,8 @@ export class ConfigPage {
     public proveedor: WsAcuarioProvider,
     public formBuilder: FormBuilder,
     private alertCtrl: AlertController,
-    public authService: AuthService
+    public authService: AuthService,
+    public popoverCtrl: PopoverController
   ) {
     this.id = navParams.get('id');
     //console.log("id recibido es: " + this.id);
@@ -147,18 +151,49 @@ export class ConfigPage {
 
   }
 
+presentPopover(ali) {
+    let options= {
+      enableBackdropDismiss: true,
+      showbackdrop: true,
+      cssClass:"custom-popover"
+
+    }
+    console.log(`enviar data popover ${ali} `);
+    let eli =ali;
+    let popover = this.popoverCtrl.create(PopoverComponent,{eli}, options);
+    popover.present({
+      ev: {eli}
+    });
+
+    popover.onDidDismiss(resp => {
+      
+      if (resp){
+      console.log(resp);
+      this.editAlimento = resp;
+      this.saveDataAli()
+    }else
+    {
+      console.log("Cancelada");
+      this.getAlimentoList();
+    }
+
+      
+
+    });
+  }
+
+
   ionViewWillEnter() {
     this.userDetails.idacuario=JSON.parse(localStorage.getItem('idacuario'));
     this.setArt.idacuario = JSON.parse(localStorage.getItem('idacuario'));
     this.userPostData.idacuario = JSON.parse(localStorage.getItem('idacuario'));
 
-    console.log("BBBBBBBBBBBBBBBBBBBBB: " + this.userDetails.idacuario);
 
     setInterval(() => {
 
       if (this.edit == false) {
         this.getLastConfigNew();
-        this.getAlimentoList();
+        //this.getAlimentoList();
 
       }
       this.getState();
@@ -171,8 +206,6 @@ export class ConfigPage {
     this.setArt.idacuario = JSON.parse(localStorage.getItem('idacuario'));
     this.userPostData.idacuario = JSON.parse(localStorage.getItem('idacuario'));
     
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAA: " + this.userDetails.idacuario);
-
     //console.log("ejecutara getLastConfigNew");
     this.getLastConfigNew();
     this.getAlimentoList();
@@ -192,8 +225,8 @@ export class ConfigPage {
     this.userPostData.idacuario = JSON.parse(localStorage.getItem('idacuario'));
 
     //console.log("dentro de LastConfigNew");
-    this.userDetails.idacuario
-    this.configAcuario
+    //this.userDetails.idacuario;
+    //this.configAcuario;
 
     console.log("CCCCCCC Buscara config de acuario: " + this.userPostData.idacuario);
        
@@ -247,11 +280,15 @@ export class ConfigPage {
           }
           else if (this.configAcuario[i].param == "nivelagua") {
             this.configInit.inivelagua = this.configAcuario[i].value;
-            if (this.configAcuario[i].value == "Y") {
+            console.log(`valor nivel agua ${this.configAcuario[i].value}`);
+            
+            if (this.configAcuario[i].value === "Y") {
+              console.log("entra en si");
               this.valueY = true;
               this.valueN = false;
             }
             else {
+              console.log("Entra en No");
               this.valueY = false;
               this.valueN = true;
             }
@@ -296,34 +333,34 @@ export class ConfigPage {
     
     this.userPostData.idacuario = JSON.parse(localStorage.getItem('idacuario'));
     
-    let data = {"user_id":this.userPostData.user_id,"idacuario":this.userPostData.idacuario}
+    let data = {"user_id":this.userPostData.user_id,"idacuario":this.userPostData.idacuario};
 
     
     this.doAlert("Alimento agregado","Configura la hora y porcion de alimentacion");
-    this.authService.addAlimento(data, 'addAlimento')
-      .subscribe(data => {
-        let response = data.response;
-        console.log("Respuesta ADD ALIMENTO" + response);
+    this.authService.addAlimento(data, 'addAlimento').subscribe(data => {
+        this.alimentoList = data.alimentoList;
       });
-    this.getAlimentoList();
+    //this.getAlimentoList();
     
   }
 
   getAlimentoList(){
     console.log("Buscando alimento");
     this.userPostData.idacuario = JSON.parse(localStorage.getItem('idacuario'));
-    this.authService.getAlimentoList(this.userPostData.idacuario, 'getAlimentoList')
-      .subscribe(data => {
+    this.authService.getAlimentoList(this.userPostData.idacuario, 'getAlimentoList').subscribe(data => {
         this.alimentoList = data.alimentoList;
         console.log(this.alimentoList);
       });
   }
 
   async deleteAlimento(idalimento){
-    console.log("Eliminando alimento");
 
     this.userPostData.idacuario = JSON.parse(localStorage.getItem('idacuario'));
-    let dataDeleteAlimento = {"user_id":this.userPostData.user_id,"idacuario":this.userPostData.idacuario, "idalimento":idalimento}
+    let dataDeleteAlimento = {
+      "user_id": this.userPostData.user_id,
+      "idacuario": this.userPostData.idacuario,
+      "idalimento": idalimento
+      };
 
     const alert = await  this.alertCtrl.create({
       title: 'Eliminar Alimento!',
@@ -333,20 +370,18 @@ export class ConfigPage {
           text: 'Cancel',
           role: 'cancel',
           cssClass: 'secondary',
-          handler: (blah) => {
+          handler: () => {
             console.log('Confirm Cancel: blah');
             this.doAlert("Operacion cancelada","");
           }
         }, {
           text: 'Si',
           handler: () => {
-            this.authService.deleteAlimento(dataDeleteAlimento, 'deleteAlimento')
-            .subscribe(data => {
-              let response = data.response;
-              console.log( " Delete alimento response: " + response );
+            this.authService.deleteAlimento(dataDeleteAlimento, 'deleteAlimento').subscribe(data => {
+              this.alimentoList = data.alimentoList;
             });
       
-            this.getAlimentoList();
+            //this.getAlimentoList();
             console.log('Confirm Okay');
             this.doAlert("Eliminar alimento!","Se ha eliminado exitosamente!");
           }
@@ -361,16 +396,16 @@ export class ConfigPage {
   
   saveData() {
     console.log(this.myForm.value);
-    this.authService.setConfig(this.myForm.value, "setConfig")
+    this.authService.setConfig(this.myForm.value, "setConfig");
     this.doAlert("Configuración","Su configuración ha sido guardada!");
     this.edit = false;
-    this.getLastConfigNew()
+    this.getLastConfigNew();
   }
 
 
   saveDataAli() {
     console.log(this.editAlimento);
-    this.authService.setConfig(this.editAlimento, "editAlimento")
+    this.authService.setConfig(this.editAlimento, "editAlimento");
     this.doAlert("Alimentacion","Su configuracion ha sido guardada!");
     this.editAli = false;
   }
@@ -395,37 +430,56 @@ export class ConfigPage {
     this.authService.getConfig(this.userPostData, "getState").then((result) => {
       this.responseStateData = result;
 
-      if (this.responseStateData.stateData) {
+      console.log(this.responseStateData);
+      
+      if (this.responseStateData.stateData) {                          
         this.configState = this.responseStateData.stateData;
 
         for (let i in this.configState) {
           if (this.configState[i].description == "Calefactor") {
             this.configArtefact.calefactor = this.booleano(this.configState[i].state);
+            if (this.configState[i].mode ==="MANUAL"){
+              this.manual = true;
+            }
           }
           else if (this.configState[i].description == "Ventilador") {
             this.configArtefact.ventilador = this.booleano(this.configState[i].state);
+            if (this.configState[i].mode ==="MANUAL"){
+              this.manual = true;
+            }
           }
           else if (this.configState[i].description == "Filtro") {
             this.configArtefact.filtroagua = this.booleano(this.configState[i].state);
+            if (this.configState[i].mode ==="MANUAL"){
+              this.manual = true;
+            }
           }
           else if (this.configState[i].description == "Luz") {
             this.configArtefact.luz = this.booleano(this.configState[i].state);
+            if (this.configState[i].mode ==="MANUAL"){
+              this.manual = true;
+            }
           }
           else if (this.configState[i].description == "Aireador") {
             this.configArtefact.aire = this.booleano(this.configState[i].state);
+            if (this.configState[i].mode ==="MANUAL"){
+              this.manual = true;
+            }
           }
         }
       }
 
-      if (this.configArtefact.aire == true || this.configArtefact.luz == true || this.configArtefact.filtroagua == true || this.configArtefact.ventilador == true || this.configArtefact.calefactor == true){
+      /*if (this.configArtefact.aire === true || this.configArtefact.luz === true || this.configArtefact.filtroagua === true || this.configArtefact.ventilador === true || this.configArtefact.calefactor === true){
         this.manual = true;
       }
       else {
         console.log("No se obtuvieron datos");
-      }
+      }*/
 
     }, (err) => {
       //Connection failed message
+      console.log(err);
+      
     });
   }
 

@@ -26,8 +26,8 @@ export class ChartPage {
   public userDetails: any;
   public tokenId: any;
 
-
-  userPostData = { "user_id": "", "token": "", "category_id": "" };
+  interval;
+  userPostData = { "user_id": "", "token": "", "category_id": "","idacuario":"" };
   lineChartTemp: any;
   lineChartPh: any;
   public dataChart: any;
@@ -44,43 +44,41 @@ export class ChartPage {
     this.userDetails = data.userData;
     this.userPostData.user_id = this.userDetails.user_id;
     this.userPostData.token = this.userDetails.token;
+    this.userPostData.idacuario=JSON.parse(localStorage.getItem('idacuario'));
 
-
-
-
-  }
-
-
-ionViewDidLeave(){
-  console.log("Saliendo de Chart");
-  
-}
-
-  ionViewWillEnter() {
- 
-  }
-
-  /*ngAfterViewInit() {
-  
-      
-  
-      setTimeout(() => {
-        
-      }, 2000),
-        setTimeout(() => {
-         
-        }, 2000)
-      }
-  */
-  ionViewDidLoad() {
     this.getChartData(1);
     this.getChartData(2);
-    setTimeout(()=>{
+
+
+  }
+
+  ionViewWillLeave() {
+    console.log("Dentro de ionviewWillLeave");
+    
+    if (this.interval) {
+      console.log("Canelando Interval");  
+      clearInterval(this.interval);
+   }
+  }
+
+
+  ionViewWillEnter() {
     this.lineChartTemp = this.getLineChartTemp();
     this.lineChartPh = this.getLineChartPh();
-  },1000);
-    this.actualizaChart();
+    this.interval = setInterval(() => {
+      //this.getLastConfig(); 
+      this.getChartData(1);
+      this.getChartData(2);
+      this.lineChartTemp = this.getLineChartTemp();
+      this.lineChartPh = this.getLineChartPh();
+    }, 3000);
+
   }
+
+
+  ionViewDidLoad() {
+  
+      }
 
 actualizaChart(){
   this.getChartData(1);
@@ -92,24 +90,38 @@ actualizaChart(){
 
   getChartData(category_id) {
     this.userPostData.category_id = category_id;
+    this.userPostData.idacuario=JSON.parse(localStorage.getItem('idacuario'));
     this.authService.postData(this.userPostData, "chart").then((result) => {
-
+      
+      if (category_id === 1){
+      this.fechatemp= [];
+      this.valmintemp =[];
+      this.valmaxtemp=[];
+    }else{
+      this.fechaph=[];
+      this.valminph=[];
+      this.valmaxph=[];
+    }
       //console.log(result);
       this.responseChartData = result;
       if (this.responseChartData.chartData) {
         this.dataSet = this.responseChartData.chartData;
-        console.log(this.dataSet.length);
+        //console.log(this.dataSet.length);
         for (let i in this.dataSet) {
           //console.log(this.dataSet[i].valmin);
           if (category_id == 1) {
             this.fechatemp.push(+this.dataSet[i].hora);
             this.valmintemp.push(+this.dataSet[i].valmin);
             this.valmaxtemp.push(+this.dataSet[i].valmax);
+            console.log(`VALORES TEMP ${this.valmintemp[i]}`);
+
           }
           else {
             this.fechaph.push(+this.dataSet[i].hora);
             this.valminph.push(+this.dataSet[i].valmin);
             this.valmaxph.push(+this.dataSet[i].valmax);
+            console.log(`VALORES PH ${this.valminph[i]}`);
+
           }
         }
 
@@ -164,8 +176,13 @@ actualizaChart(){
       }
       ]
     }
-
-    return this.getChart(this.lineCanvasTemp.nativeElement, 'line', data)
+    console.log("retorna data");
+    let options = {
+      animation: false,
+      minvalue: 10,
+      maxvalue: 30
+    }
+    return this.getChart(this.lineCanvasTemp.nativeElement, 'line', data, options)
   }
 
   getLineChartPh() {
@@ -186,7 +203,7 @@ actualizaChart(){
         pointRadius: 1,
         pointHitRadius: 1,
         data: this.valminph,
-        scanGaps: false,
+        scanGaps: true,
       }, {
         label: 'Máximo',
         fill: false,
@@ -198,11 +215,14 @@ actualizaChart(){
         pointRadius: 1,
         pointHitRadius: 1,
         data: this.valmaxph,
-        scanGaps: false,
+        scanGaps: true,
       }
       ]
     }
-    return this.getChart(this.lineCanvasPh.nativeElement, 'line', data)
+    let options = {
+      animation: false
+    }
+    return this.getChart(this.lineCanvasPh.nativeElement, 'line', data,options)
   }
 
 }

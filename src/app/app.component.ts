@@ -4,8 +4,11 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { FCM } from '@ionic-native/fcm';
 import { Push, PushObject, PushOptions } from '@ionic-native/push'
+import { WebsocketProvider } from '../providers/websocket/websocket';
 
 import { LoginPage } from '../pages/login/login';
+import { AuthService } from '../providers/auth_service';
+
 //import { TabsPage } from '../pages/tabs/tabs';
 
 @Component({
@@ -17,7 +20,14 @@ export class MyApp {
   //rootPage:any = TabsPage;
 
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, private fcm: FCM, private push: Push) {
+  constructor(platform: Platform, statusBar: StatusBar, 
+    splashScreen: SplashScreen, 
+    private fcm: FCM, 
+    public wsService: WebsocketProvider,
+    private push: Push,
+    public authService: AuthService) 
+    
+    {
     platform.ready().then(() => {
       this.pushSetup();
       if (platform.is('cordova')) {
@@ -67,5 +77,4 @@ export class MyApp {
    
    pushObject.on('error').subscribe(error => console.error('Error with Push plugin', error));
   }
-
 }
