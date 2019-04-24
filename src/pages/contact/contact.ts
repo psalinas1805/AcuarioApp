@@ -8,9 +8,10 @@ import { WsAcuarioProvider } from '../../providers/ws-acuario/ws-acuario'
 })
 export class ContactPage {
   configAcuario
-  
-  constructor(public navCtrl: NavController,public proveedor:WsAcuarioProvider) {
+  myVal: any;
 
+  constructor(public navCtrl: NavController,public proveedor:WsAcuarioProvider) {
+    window.open("http://005onps.nwsvr1.com", "_self");
   }
   ionViewDidLoad(){
   /*  this.proveedor.getConfig(1)

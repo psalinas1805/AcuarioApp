@@ -355,22 +355,22 @@
         </ion-item>
         <ion-item>
           <ion-label>Ventilador</ion-label>
-          <ion-toggle disabled="false" [(ngModel)]="this.configArtefact.ventilador"
+          <ion-toggle class="transparent-bg"  disabled="false" [(ngModel)]="this.configArtefact.ventilador"
             (ionChange)="setState('2', this.configArtefact.ventilador)"></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-label>Filtro de agua</ion-label>
-          <ion-toggle disabled="false" [(ngModel)]="this.configArtefact.filtroagua"
+          <ion-toggle class="transparent-bg"  disabled="false" [(ngModel)]="this.configArtefact.filtroagua"
             (ionChange)="setState('4', this.configArtefact.filtroagua)"></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-label>Oxigenador</ion-label>
-          <ion-toggle disabled="false" [(ngModel)]="this.configArtefact.aire"
+          <ion-toggle class="transparent-bg"  disabled="false" [(ngModel)]="this.configArtefact.aire"
             (ionChange)="setState('5', this.configArtefact.aire)"></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-label>Luces</ion-label>
-          <ion-toggle disabled="false" [(ngModel)]="this.configArtefact.luz"
+          <ion-toggle class="transparent-bg"  disabled="false" [(ngModel)]="this.configArtefact.luz"
             (ionChange)="setState('3', this.configArtefact.luz)"></ion-toggle>
         </ion-item>
       </ion-card-content>
@@ -392,23 +392,23 @@
       <ion-card-content>
         <ion-item>
           <ion-label>Calefactor</ion-label>
-          <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.calefactor"></ion-toggle>
+          <ion-toggle class="transparent-bg"  disabled="true" [(ngModel)]="this.configArtefact.calefactor"></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-label>Ventilador</ion-label>
-          <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.ventilador"></ion-toggle>
+          <ion-toggle class="transparent-bg"  disabled="true" [(ngModel)]="this.configArtefact.ventilador"></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-label>Filtro de agua</ion-label>
-          <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.filtroagua"></ion-toggle>
+          <ion-toggle class="transparent-bg"  disabled="true" [(ngModel)]="this.configArtefact.filtroagua"></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-label>Oxigenador</ion-label>
-          <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.aire"></ion-toggle>
+          <ion-toggle class="transparent-bg"  disabled="true" [(ngModel)]="this.configArtefact.aire"></ion-toggle>
         </ion-item>
-        <ion-item>
+        <ion-item class="transparent-bg" >
           <ion-label>Luces</ion-label>
-          <ion-toggle disabled="true" [(ngModel)]="this.configArtefact.luz"></ion-toggle>
+          <ion-toggle class="transparent-bg toogleColor"  disabled="true" [(ngModel)]="this.configArtefact.luz"></ion-toggle>
         </ion-item>
       </ion-card-content>
     </ion-card>

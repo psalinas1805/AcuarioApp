@@ -8,6 +8,8 @@ import { WsAcuarioProvider } from '../../providers/ws-acuario/ws-acuario';
 import { Socket } from "ng-socket-io";
 import { WebsocketProvider } from "../../providers/websocket/websocket";
 
+
+
 @Component({
 
   
@@ -115,7 +117,7 @@ export class HomePage implements OnInit {
 
       this.fcm.getToken().then(token => {
         //backend.registerToken(token);
-        alert("Token del dispositivo " + token);
+        //alert("Token del dispositivo " + token);
         console.log("Token del dispositivo" + token);
         this.userTokenPush.tokenPush = token;
         this.setToken();
