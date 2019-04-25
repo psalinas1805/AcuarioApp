@@ -7,7 +7,7 @@ import { WebsocketProvider } from './websocket/websocket';
 
 
 //let apiUrl = 'http://happypez.cf/AuthServices/api/index.php/';
-//let apiUrl = 'http://happypez.cf:3000/';
+let apiUrl = 'http://happypez.cf:3000/';
 let headers = new Headers({'Content-Type': 'application/json'});
 /*
   Generated class for the AuthService provider.
